@@ -57,9 +57,11 @@ const field = [
 
 
 const clickCheck = (event) => {
-    changeState(event);
+    showButton(event);
+    disableButton(event);
     const $clickVal = $(event.target).html();
     if ($clickVal === "B") {
+        clickedBomb();
         console.log("Bomb");
     } else {
         console.log($clickVal + " is selected");
@@ -67,14 +69,18 @@ const clickCheck = (event) => {
 };
 
 
-const changeState = (event) => {
-    $(event.target).attr('class', "disabled");
-    console.log("changed state");
+const disableButton = (event) => {
+    $(event.target).addClass("disabled");
+    console.log("button disabled");
 };
 
+const showButton = (event) => {
+    $(event.target).attr('class', "shown");
+    console.log("button shown");
+}
 
 const clickedBomb = (event) => {
-
+    $('button').addClass("disabled");
 };
 
 

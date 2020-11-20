@@ -16,9 +16,10 @@ button {
     /* border-radius: 1px; */
     border: 1px solid black;
 }
-
+.shown {
+color: white;
+}
 .hidden {
-    background-color: darkgrey;
 color: darkgrey;
 text-align: left;
 white-space: nowrap;
@@ -27,5 +28,5 @@ text-indent: -9999px;
 }
 
 .disabled {
-    cursor: not-allowed;
+    pointer-events: none;
 }
