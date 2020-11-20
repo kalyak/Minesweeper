@@ -1,0 +1,23 @@
+body {
+    margin: 0 auto;
+}
+
+button {
+    background-color: darkgrey;
+    border: none;
+    /* color: white; */
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    /* display: inline-block; */
+    font-size: 12px;
+    width: 30px;
+    height: 30px;
+    /* border-radius: 1px; */
+    border: 1px solid black;
+}
+
+.hidden {
+    background-color: darkgrey;
+color: darkgrey;
+}
