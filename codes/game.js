@@ -68,7 +68,7 @@ const clickCheck = (event) => {
 
 
 const changeState = (event) => {
-    $(event.target).removeClass();
+    $(event.target).attr('class', "disabled");
     console.log("changed state");
 };
 

@@ -25,3 +25,7 @@ white-space: nowrap;
 overflow: hidden;
 text-indent: -9999px;
 }
+
+.disabled {
+    cursor: not-allowed;
+}
