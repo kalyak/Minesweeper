@@ -1,23 +1,61 @@
 const field = [
     [
         [{
-            value: 1,
+            value: 0,
             state: "hidden"
         }],
         [{
-            value: 2,
+            value: 0,
             state: "hidden"
         }],
         [{
-            value: 2,
+            value: 0,
             state: "hidden"
         }],
         [{
-            value: 1,
+            value: 0,
+            state: "hidden"
+        }],
+        [{
+            value: 0,
+            state: "hidden"
+        }],
+        [{
+            value: 0,
             state: "hidden"
         }]
     ],
     [
+        [{
+            value: 0,
+            state: "hidden"
+        }],
+        [{
+            value: 1,
+            state: "hidden"
+        }],
+        [{
+            value: 2,
+            state: "hidden"
+        }],
+        [{
+            value: 2,
+            state: "hidden"
+        }],
+        [{
+            value: 1,
+            state: "hidden"
+        }],
+        [{
+            value: 0,
+            state: "hidden"
+        }]
+    ],
+    [
+        [{
+            value: 0,
+            state: "hidden"
+        }],
         [{
             value: 1,
             state: "hidden"
@@ -33,10 +71,18 @@ const field = [
         [{
             value: 1,
             state: "hidden"
+        }],
+        [{
+            value: 0,
+            state: "hidden"
         }]
     ],
     [
         [{
+            value: 0,
+            state: "hidden"
+        }],
+        [{
             value: 1,
             state: "hidden"
         }],
@@ -50,24 +96,68 @@ const field = [
         }],
         [{
             value: 1,
+            state: "hidden"
+        }],
+        [{
+            value: 0,
+            state: "hidden"
+        }]
+    ],
+    [
+        [{
+            value: 0,
+            state: "hidden"
+        }],
+        [{
+            value: 0,
+            state: "hidden"
+        }],
+        [{
+            value: 0,
+            state: "hidden"
+        }],
+        [{
+            value: 0,
+            state: "hidden"
+        }],
+        [{
+            value: 0,
+            state: "hidden"
+        }],
+        [{
+            value: 0,
             state: "hidden"
         }]
     ]
 ];
-
+let message = "";
 
 const clickCheck = (event) => {
-    showButton(event);
-    disableButton(event);
-    const $clickVal = $(event.target).html();
-    if ($clickVal === "B") {
-        clickedBomb();
-        console.log("Bomb");
-    } else {
-        console.log($clickVal + " is selected");
-    }
+    // showButton(event);
+    // disableButton(event);
+    // const $clickVal = $(event.target).html();
+    // if ($clickVal === "B") {
+    //     clickedBomb();
+    //     console.log("Bomb");
+    // } else {
+    //     console.log($clickVal + " is selected");
+    // }
+
+    convertCoords(event);
 };
 
+const convertCoords = (event) => {
+    const col = $(event.target).attr('id');
+    const row = $(event.target).parent().attr('id');
+    const butt = $(event.target);
+    console.log(col);
+    console.log(row);
+    console.log(butt);
+}
+
+const checkSurrounding = (event) => {
+
+}
 
 const disableButton = (event) => {
     $(event.target).addClass("disabled");
@@ -81,10 +171,17 @@ const showButton = (event) => {
 
 const clickedBomb = (event) => {
     $('button').addClass("disabled");
+    message = "Game Over";
+    render();
 };
 
 
 const render = () => {
+    $('#message-box').html(message);
+};
+
+
+const setUp = () => {
     for (let i = 0; i < field.length; i++) {
         const currentRow = field[i];
         const $field = $('#field');
@@ -106,13 +203,8 @@ const render = () => {
 };
 
 
-// const setUp = () => {
-
-// };
-
-
 $(() => {
-    // setUp();
+    setUp();
     render();
 });
 

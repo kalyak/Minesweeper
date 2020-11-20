@@ -2,6 +2,18 @@ body {
     margin: 0 auto;
 }
 
+/* div {
+    border: 1px solid blue;
+    vertical-align: top;
+} */
+
+.field {
+    /* display: flex;
+    flex-direction: row nowrap;
+    justify-content: center; */
+    /* align-items: stretch; */
+    font-size: 0;
+}
 button {
     background-color: darkgrey;
     border: none;
@@ -15,6 +27,7 @@ button {
     height: 30px;
     /* border-radius: 1px; */
     border: 1px solid black;
+    margin: 0;
 }
 .shown {
 color: white;
