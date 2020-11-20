@@ -66,14 +66,17 @@ const clickCheck = (event) => {
     }
 };
 
+
 const changeState = (event) => {
     $(event.target).removeClass();
     console.log("changed state");
 };
 
-// const setUp = () => {
 
-// };
+const clickedBomb = (event) => {
+
+};
+
 
 const render = () => {
     for (let i = 0; i < field.length; i++) {
@@ -97,8 +100,15 @@ const render = () => {
 };
 
 
+// const setUp = () => {
+
+// };
+
 
 $(() => {
     // setUp();
     render();
 });
+
+//change button id to num, blank or bomb?
+//render without number in html when hidden, only put in html when clicked => to prevent cheating by highlighting

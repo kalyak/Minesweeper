@@ -20,4 +20,8 @@ button {
 .hidden {
     background-color: darkgrey;
 color: darkgrey;
+text-align: left;
+white-space: nowrap;
+overflow: hidden;
+text-indent: -9999px;
 }
