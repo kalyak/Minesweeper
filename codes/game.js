@@ -143,16 +143,23 @@ const clickCheck = (event) => {
     //     console.log($clickVal + " is selected");
     // }
 
-    convertCoords(event);
+    //``````````start of click tests ```````````````//
+    const cellCoord = convertCoords(event);
+    console.log(cellCoord);
 };
 
 const convertCoords = (event) => {
-    const col = $(event.target).attr('id');
-    const row = $(event.target).parent().attr('id');
-    const butt = $(event.target);
-    console.log(col);
-    console.log(row);
-    console.log(butt);
+    // const col = $(event.target).attr('id').split("-").pop();
+    // const row = $(event.target).parent().attr('id').split("-").pop();
+    // const butt = $(event.target);
+    // console.log(col);
+    // console.log(row);
+    // console.log(butt);
+    const cellCoord = {
+        col: $(event.target).attr('id').split("-").pop(),
+        row: $(event.target).parent().attr('id').split("-").pop()
+    }
+    return cellCoord;
 }
 
 const checkSurrounding = (event) => {
