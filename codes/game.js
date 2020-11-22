@@ -133,19 +133,22 @@ const field = [
 let message = "";
 
 const clickCheck = (event) => {
-    showButton(event);
-    disableButton(event);
-    const $clickVal = $(event.target).html();
-    if ($clickVal === "B") {
-        clickedBomb();
-        console.log("Bomb");
-    } else if ($clickVal > 0) {
-        console.log($clickVal + " is ")
-    } else {
-        console.log($clickVal + " is selected");
-        checkSurrounding(event);
+    console.log("clickCheck start:");
+    // console.log($(event.target));
+    if ($(event.target).attr('class') === "hidden") {
+        const $clickVal = $(event.target).html();
+        showButton(event, $clickVal);
+        disableButton(event);
+        if ($clickVal === "B") {
+            clickedBomb();
+            console.log("Bomb");
+        } else if ($clickVal > 0) {
+            console.log($clickVal + " is ")
+        } else {
+            console.log($clickVal + " is selected");
+            openSurrounding(event);
+        }
     }
-
     //``````````start of click tests ```````````````//
 };
 
@@ -163,42 +166,51 @@ const convertCoords = (event) => {
     return cellCoord;
 }
 
-const checkSurrounding = (event) => {
+const openSurrounding = (event) => {
     const cellCoord = convertCoords(event); //get cell coord in object {row, col}
-    console.log(cellCoord);
-    console.log("cell val: " + field[cellCoord.row][cellCoord.col][0].value);//get cell value
+    // console.log(cellCoord);
+    // console.log("cell val: " + field[cellCoord.row][cellCoord.col][0].value);//get cell value
     if (cellCoord.col !== 0) { //if cell is not leftmost cell
-        console.log("left val: " + field[cellCoord.row][cellCoord.col - 1][0].value); //left cell value
+        // console.log("left val: " + field[cellCoord.row][cellCoord.col - 1][0].value); //left cell value
+        // console.log($(event));
+        $(event.target).prev().click(); //left cell click
+        // console.log($(event.target).prev());
     }
 
     if (cellCoord.col < (field[0].length - 1)) { //if cell is not rightmost cell
-        console.log("right val: " + field[cellCoord.row][cellCoord.col + 1][0].value); //right cell value
+        // console.log("right val: " + field[cellCoord.row][cellCoord.col + 1][0].value); //right cell value
+        $(event.target).next().click(); //right cell click
     }
 
     if (cellCoord.row !== 0) { //if cell is not in top row
         if (cellCoord.col !== 0) {
-            console.log("above left val: " + field[cellCoord.row - 1][cellCoord.col - 1][0].value); //above left cell value
+            // console.log("above left val: " + field[cellCoord.row - 1][cellCoord.col - 1][0].value); //above left cell value
+            $(event.target).parent().prev().children().eq(cellCoord.col -1).click(); //above left cell click
         }
 
         if (cellCoord.col < (field[0].length - 1)) {
-            console.log("above right val: " + field[cellCoord.row - 1][cellCoord.col + 1][0].value); //above right cell value
+            // console.log("above right val: " + field[cellCoord.row - 1][cellCoord.col + 1][0].value); //above right cell value
+            $(event.target).parent().prev().children().eq(cellCoord.col +1).click(); //above right cell click
         }
 
-        console.log("above center val: " + field[cellCoord.row - 1][cellCoord.col][0].value); //above center cell value
-
-
+        // console.log("above center val: " + field[cellCoord.row - 1][cellCoord.col][0].value); //above center cell value
+        // console.log($(event.target).parent().prev().children().eq(cellCoord.col));
+        $(event.target).parent().prev().children().eq(cellCoord.col).click(); //above center cell click
     }
 
     if (cellCoord.row < (field.length - 1)) { //if cell is not in bottom row
         if (cellCoord.col !== 0) {
-            console.log("below left val: " + field[cellCoord.row + 1][cellCoord.col - 1][0].value); //below left cell value
+            // console.log("below left val: " + field[cellCoord.row + 1][cellCoord.col - 1][0].value); //below left cell value
+            $(event.target).parent().next().children().eq(cellCoord.col -1).click(); //below left cell click
         }
 
         if (cellCoord.col < (field[0].length - 1)) {
-            console.log("below right val: " + field[cellCoord.row + 1][cellCoord.col + 1][0].value); //below right cell value
+            // console.log("below right val: " + field[cellCoord.row + 1][cellCoord.col + 1][0].value); //below right cell value
+            $(event.target).parent().next().children().eq(cellCoord.col +1).click(); //below right cell click
         }
 
-        console.log("below center val: " + field[cellCoord.row + 1][cellCoord.col][0].value); //below center cell value
+        // console.log("below center val: " + field[cellCoord.row + 1][cellCoord.col][0].value); //below center cell value
+        $(event.target).parent().next().children().eq(cellCoord.col).click(); //below center cell click
 
     }
 
@@ -209,8 +221,11 @@ const disableButton = (event) => {
     console.log("button disabled");
 };
 
-const showButton = (event) => {
+const showButton = (event, $clickVal) => {
     $(event.target).attr('class', "shown");
+    if ($clickVal === "0") {
+        $(event.target).addClass("zero");
+    }
     console.log("button shown");
 }
 
@@ -255,3 +270,4 @@ $(() => {
 
 //change button id to num, blank or bomb?
 //render without number in html when hidden, only put in html when clicked => to prevent cheating by highlighting
+//using navigations of siblings?

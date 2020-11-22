@@ -31,8 +31,10 @@ button {
 }
 .shown {
 color: white;
+background-color: slategrey;
 }
-.hidden {
+
+.hidden, .zero {
 color: darkgrey;
 text-align: left;
 white-space: nowrap;
