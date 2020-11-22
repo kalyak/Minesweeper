@@ -133,19 +133,20 @@ const field = [
 let message = "";
 
 const clickCheck = (event) => {
-    // showButton(event);
-    // disableButton(event);
-    // const $clickVal = $(event.target).html();
-    // if ($clickVal === "B") {
-    //     clickedBomb();
-    //     console.log("Bomb");
-    // } else {
-    //     console.log($clickVal + " is selected");
-    // }
+    showButton(event);
+    disableButton(event);
+    const $clickVal = $(event.target).html();
+    if ($clickVal === "B") {
+        clickedBomb();
+        console.log("Bomb");
+    } else if ($clickVal > 0) {
+        console.log($clickVal + " is ")
+    } else {
+        console.log($clickVal + " is selected");
+        checkSurrounding(event);
+    }
 
     //``````````start of click tests ```````````````//
-    const cellCoord = convertCoords(event);
-    console.log(cellCoord);
 };
 
 const convertCoords = (event) => {
@@ -156,13 +157,50 @@ const convertCoords = (event) => {
     // console.log(row);
     // console.log(butt);
     const cellCoord = {
-        col: $(event.target).attr('id').split("-").pop(),
-        row: $(event.target).parent().attr('id').split("-").pop()
+        row: parseInt($(event.target).parent().attr('id').split("-").pop()),
+        col: parseInt($(event.target).attr('id').split("-").pop())
     }
     return cellCoord;
 }
 
 const checkSurrounding = (event) => {
+    const cellCoord = convertCoords(event); //get cell coord in object {row, col}
+    console.log(cellCoord);
+    console.log("cell val: " + field[cellCoord.row][cellCoord.col][0].value);//get cell value
+    if (cellCoord.col !== 0) { //if cell is not leftmost cell
+        console.log("left val: " + field[cellCoord.row][cellCoord.col - 1][0].value); //left cell value
+    }
+
+    if (cellCoord.col < (field[0].length - 1)) { //if cell is not rightmost cell
+        console.log("right val: " + field[cellCoord.row][cellCoord.col + 1][0].value); //right cell value
+    }
+
+    if (cellCoord.row !== 0) { //if cell is not in top row
+        if (cellCoord.col !== 0) {
+            console.log("above left val: " + field[cellCoord.row - 1][cellCoord.col - 1][0].value); //above left cell value
+        }
+
+        if (cellCoord.col < (field[0].length - 1)) {
+            console.log("above right val: " + field[cellCoord.row - 1][cellCoord.col + 1][0].value); //above right cell value
+        }
+
+        console.log("above center val: " + field[cellCoord.row - 1][cellCoord.col][0].value); //above center cell value
+
+
+    }
+
+    if (cellCoord.row < (field.length - 1)) { //if cell is not in bottom row
+        if (cellCoord.col !== 0) {
+            console.log("below left val: " + field[cellCoord.row + 1][cellCoord.col - 1][0].value); //below left cell value
+        }
+
+        if (cellCoord.col < (field[0].length - 1)) {
+            console.log("below right val: " + field[cellCoord.row + 1][cellCoord.col + 1][0].value); //below right cell value
+        }
+
+        console.log("below center val: " + field[cellCoord.row + 1][cellCoord.col][0].value); //below center cell value
+
+    }
 
 }
 
