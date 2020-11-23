@@ -131,6 +131,7 @@ const field = [
     ]
 ];
 let message = "";
+let noOfMines = 0;
 
 const clickCheck = (event) => {
     console.log("clickCheck start:");
@@ -168,50 +169,36 @@ const convertCoords = (event) => {
 
 const openSurrounding = (event) => {
     const cellCoord = convertCoords(event); //get cell coord in object {row, col}
-    // console.log(cellCoord);
-    // console.log("cell val: " + field[cellCoord.row][cellCoord.col][0].value);//get cell value
     if (cellCoord.col !== 0) { //if cell is not leftmost cell
-        // console.log("left val: " + field[cellCoord.row][cellCoord.col - 1][0].value); //left cell value
-        // console.log($(event));
         $(event.target).prev().click(); //left cell click
-        // console.log($(event.target).prev());
     }
 
     if (cellCoord.col < (field[0].length - 1)) { //if cell is not rightmost cell
-        // console.log("right val: " + field[cellCoord.row][cellCoord.col + 1][0].value); //right cell value
         $(event.target).next().click(); //right cell click
     }
 
     if (cellCoord.row !== 0) { //if cell is not in top row
         if (cellCoord.col !== 0) {
-            // console.log("above left val: " + field[cellCoord.row - 1][cellCoord.col - 1][0].value); //above left cell value
-            $(event.target).parent().prev().children().eq(cellCoord.col -1).click(); //above left cell click
+            $(event.target).parent().prev().children().eq(cellCoord.col - 1).click(); //above left cell click
         }
 
         if (cellCoord.col < (field[0].length - 1)) {
-            // console.log("above right val: " + field[cellCoord.row - 1][cellCoord.col + 1][0].value); //above right cell value
-            $(event.target).parent().prev().children().eq(cellCoord.col +1).click(); //above right cell click
+            $(event.target).parent().prev().children().eq(cellCoord.col + 1).click(); //above right cell click
         }
 
-        // console.log("above center val: " + field[cellCoord.row - 1][cellCoord.col][0].value); //above center cell value
-        // console.log($(event.target).parent().prev().children().eq(cellCoord.col));
         $(event.target).parent().prev().children().eq(cellCoord.col).click(); //above center cell click
     }
 
     if (cellCoord.row < (field.length - 1)) { //if cell is not in bottom row
         if (cellCoord.col !== 0) {
-            // console.log("below left val: " + field[cellCoord.row + 1][cellCoord.col - 1][0].value); //below left cell value
-            $(event.target).parent().next().children().eq(cellCoord.col -1).click(); //below left cell click
+            $(event.target).parent().next().children().eq(cellCoord.col - 1).click(); //below left cell click
         }
 
         if (cellCoord.col < (field[0].length - 1)) {
-            // console.log("below right val: " + field[cellCoord.row + 1][cellCoord.col + 1][0].value); //below right cell value
-            $(event.target).parent().next().children().eq(cellCoord.col +1).click(); //below right cell click
+            $(event.target).parent().next().children().eq(cellCoord.col + 1).click(); //below right cell click
         }
 
-        // console.log("below center val: " + field[cellCoord.row + 1][cellCoord.col][0].value); //below center cell value
         $(event.target).parent().next().children().eq(cellCoord.col).click(); //below center cell click
-
     }
 
 }
@@ -248,10 +235,12 @@ const setUp = () => {
         const $row = $('<div>').attr('id', "row-" + i);
         for (let j = 0; j < currentRow.length; j++) {
             const currentCell = currentRow[j][0].value;
+            if (currentCell === "B") {
+                noOfMines++;
+            }
             const $col = $('<button>')
                 .attr({
-                    'id': "col-" + j
-                    ,
+                    'id': "col-" + j,
                     'class': currentRow[j][0].state
                 })
                 .html(currentCell)
