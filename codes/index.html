@@ -36,9 +36,22 @@
         </div>
 
     </div> -->
+
     <div id="message-box"></div>
     <br>
-    <div id="field"></div>
+
+    <div id="field-gen">
+        <label for="row-input">Number of Rows: </label><input type="number" name="rows" id="row-input" min="1">
+        <br>
+        <label for="col-input">Number of Columns: </label><input type="number" name="columns" id="col-input" min="1">
+        <br>
+        <label for="bomb-input">Number of Bombs: </label><input type="number" name="bombs" id="bomb-input" min="1">
+        <br>
+        <button id="generate-field">Generate Field</button>
+    </div>
+
+    <br>
+    <div id="field" class="field"></div>
 
     <br>
     <button id="reset">Reset</button>

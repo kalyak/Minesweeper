@@ -242,9 +242,91 @@ const field2 = [
     ]
 ];
 
-const randomGrid = [];
 let message = "";
 let noOfMines = 0;
+
+const generateRandomArray = () => {
+    // $('#generate-field').on('click',inputRetrieval);
+
+    const noOfRows = 4;
+    const noOfCols = 6;
+    const noOfMines = 3;
+    const randomGrid = [];
+
+    //generate empty array
+    for (let i = 0; i < noOfRows; i++) {
+        const rowArray = [];
+        for (let j = 0; j < noOfCols; j++) {
+            rowArray.push(0);
+        };
+        randomGrid.push(rowArray);
+    };
+    console.log(randomGrid);
+
+    //generate coordinates for bombs
+    const bombCoord = bombCoordGeneration(noOfRows, noOfCols, noOfMines);
+    console.log(bombCoord);
+    //populate bomb location
+
+    //add 1 to surrounding for every bomb
+    //send array to fieldGeneration()
+    fieldGeneration(randomGrid);
+    //console.log array
+}
+
+const bombCoordGeneration = (noOfRows, noOfCols, noOfMines) => {
+    const bombCoord = [];
+    for (let k = 0; k < noOfMines; k++) {
+        let newbomb = {
+            x: Math.floor(Math.random() * noOfRows),
+            y: Math.floor(Math.random() * noOfCols)
+        }
+        for (l = 0; l < k; l++) {
+            if ((bombCoord[l].x === newbomb.x) && (bombCoord[l].y === newbomb.y)) {
+                k--;
+                // console.log(bombCoord);
+                bombCoord.splice(l, 1);
+            };
+            // console.log(279)
+        }
+        // console.log(281);
+        bombCoord.push(newbomb);
+
+    };
+    // console.log(285);
+    // console.log(bombCoord);
+    return bombCoord;
+}
+
+const fieldGeneration = (randomGrid) => {
+    for (let i = 0; i < randomGrid.length; i++) {
+        message = "Left click to reveal cell, Right click to toggle flag on cell.";
+        const currentRow = randomGrid[i];
+        const $field = $('#field');
+        const $row = $('<div>').attr('id', "row-" + i);
+        for (let j = 0; j < currentRow.length; j++) {
+            const currentCell = currentRow[j];
+            if (currentCell === "B") {
+                noOfMines++;
+            }
+            const $col = $('<button>')
+                .attr({
+                    'id': "col-" + j,
+                    'class': "hidden"
+                })
+                .html(currentCell)
+                .on('click', clickCheck)
+                .on('contextmenu', flag);
+            $row.append($col);
+        }
+        $field.append($row);
+    }
+    $('#reset').on('click', reset);
+    $('#credits').hide();
+};
+
+
+///////////////////////functional codes below////////////////////////
 
 const clickCheck = (event) => {
     console.log("clickCheck start:");
@@ -372,8 +454,8 @@ const render = () => {
 };
 
 const reset = () => {
-$('#field').empty();
-setUp();
+    $('#field').empty();
+    setUp();
 };
 
 const setUp = () => {
@@ -399,16 +481,30 @@ const setUp = () => {
         }
         $field.append($row);
     }
-    $('#reset').on('click',reset);
+    $('#reset').on('click', reset);
     $('#credits').hide();
 };
 
 
 $(() => {
-    setUp();
-    render();
+    generateRandomArray();
+    // setUp();
+    // render();
 });
 
 //change button id to num, blank or bomb?
 //render without number in html when hidden, only put in html when clicked => to prevent cheating by highlighting. // Done
 //using navigations of siblings? // Done
+
+
+// const inputRetrieval = () => {
+//     $inputCol = parseInt($('#col-input').val());
+//     $inputRow = parseInt($('#row-input').val());
+//     $inputBomb = parseInt($('#bomb-input').val());
+//     console.log(typeof $inputBomb)
+//     console.log(`Rows: ${$inputRow}, Columns: ${$inputCol}, Bombs: ${$inputBomb}`)
+
+//     if ($inputBomb >= ($inputRow * $inputCol)) {
+//         message = "Please enter"
+//     } 
+// };

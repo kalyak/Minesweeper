@@ -14,10 +14,8 @@ body {
     /* align-items: stretch; */
     font-size: 0;
 }
-button.shown, button.hidden {
-    background-color: darkgrey;
+.field button {
     border: none;
-    /* color: white; */
     padding: 5px;
     text-align: center;
     text-decoration: none;
@@ -35,11 +33,15 @@ background-color: slategrey;
 }
 
 .hidden, .zero, .bomb, .flag {
-color: darkgrey;
+/* color: darkgrey; */
 text-align: left;
 white-space: nowrap;
 overflow: hidden;
 text-indent: -9999px;
+}
+
+.hidden, .flag {
+    background-color: darkgrey;
 }
 
 .bomb {
