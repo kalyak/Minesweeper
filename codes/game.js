@@ -134,6 +134,115 @@ const field = [
         }]
     ]
 ];
+
+const field2 = [
+    [//row 0
+        [{//column 0
+            value: 0,
+            state: "hidden",
+        }],
+        [{//column 1
+            value: 1,
+            state: "hidden",
+        }],
+        [{//column 2
+            value: "B",
+            state: "hidden",
+        }],
+        [{//column 3
+            value: 1,
+            state: "hidden",
+        }],
+        [{//column 4
+            value: 1,
+            state: "hidden",
+        }],
+        [{//column 5
+            value: 1,
+            state: "hidden",
+        }]
+    ],
+    [//row 1
+        [{//column 0
+            value: 0,
+            state: "hidden",
+        }],
+        [{//column 1
+            value: 1,
+            state: "hidden",
+        }],
+        [{//column 2
+            value: 1,
+            state: "hidden",
+        }],
+        [{//column 3
+            value: 2,
+            state: "hidden",
+        }],
+        [{//column 4
+            value: 2,
+            state: "hidden",
+        }],
+        [{//column 5
+            value: "B",
+            state: "hidden",
+        }]
+    ],
+    [//row 2
+        [{//column 0
+            value: 0,
+            state: "hidden",
+        }],
+        [{//column 1
+            value: 0,
+            state: "hidden",
+        }],
+        [{//column 2
+            value: 0,
+            state: "hidden",
+        }],
+        [{//column 3
+            value: 1,
+            state: "hidden",
+        }],
+        [{//column 4
+            value: "B",
+            state: "hidden",
+        }],
+        [{//column 5
+            value: 2,
+            state: "hidden",
+        }]
+    ],
+    [//row 3
+        [{//column 0
+            value: 0,
+            state: "hidden",
+        }],
+        [{//column 1
+            value: 0,
+            state: "hidden",
+        }],
+        [{//column 2
+            value: 0,
+            state: "hidden",
+        }],
+        [{//column 3
+            value: 1,
+            state: "hidden",
+        }],
+        [{//column 4
+            value: 1,
+            state: "hidden",
+        }],
+        [{//column 5
+            value: 1,
+            state: "hidden",
+        }]
+    ]
+];
+
+const randomGrid = [];
 let message = "";
 let noOfMines = 0;
 
@@ -162,14 +271,14 @@ const checkWin = () => {
     $noOfHidden = $('.hidden').length;
     $noOfFlags = $('.flag').length;
     $noOfSuccessfulFlags = $('.flag:contains("B")').length;
-    // console.log("Flags: " + $noOfFlags);
-    // console.log("Successful flags: " + $noOfSuccessfulFlags);
-    // console.log("No of mines: " + noOfMines);
+    console.log("Flags: " + $noOfFlags);
+    console.log("Successful flags: " + $noOfSuccessfulFlags);
+    console.log("No of mines: " + noOfMines);
     if ($noOfHidden === noOfMines) {
-        $('button').addClass("disabled");
+        disableField();
         message = "Congratulations! You have successfully navigated this field.";
     } else if (($noOfFlags === $noOfSuccessfulFlags) && ($noOfSuccessfulFlags === noOfMines)) {
-        $('button').addClass("disabled");
+        disableField();
         message = "Congratulations! You have flagged all the mines!"
     }
     render();
@@ -195,7 +304,7 @@ const openSurrounding = (event) => {
         $(event.target).prev().click(); //left cell click
     }
 
-    if (cellCoord.col < (field[0].length - 1)) { //if cell is not rightmost cell
+    if (cellCoord.col < (field2[0].length - 1)) { //if cell is not rightmost cell
         $(event.target).next().click(); //right cell click
     }
 
@@ -204,19 +313,19 @@ const openSurrounding = (event) => {
             $(event.target).parent().prev().children().eq(cellCoord.col - 1).click(); //above left cell click
         }
 
-        if (cellCoord.col < (field[0].length - 1)) {
+        if (cellCoord.col < (field2[0].length - 1)) {
             $(event.target).parent().prev().children().eq(cellCoord.col + 1).click(); //above right cell click
         }
 
         $(event.target).parent().prev().children().eq(cellCoord.col).click(); //above center cell click
     }
 
-    if (cellCoord.row < (field.length - 1)) { //if cell is not in bottom row
+    if (cellCoord.row < (field2.length - 1)) { //if cell is not in bottom row
         if (cellCoord.col !== 0) {
             $(event.target).parent().next().children().eq(cellCoord.col - 1).click(); //below left cell click
         }
 
-        if (cellCoord.col < (field[0].length - 1)) {
+        if (cellCoord.col < (field2[0].length - 1)) {
             $(event.target).parent().next().children().eq(cellCoord.col + 1).click(); //below right cell click
         }
 
@@ -238,8 +347,13 @@ const showButton = (event, $clickVal) => {
     console.log("button shown");
 }
 
+const disableField = () => {
+    $('.shown').addClass("disabled");
+    $('.hidden').addClass("disabled");
+};
+
 const clickedBomb = (event) => {
-    $('button').addClass("disabled");
+    disableField();
     $bombs = $('button:contains("B")').addClass("bomb");
     console.log(`bombs displayed`);
     message = "Game Over";
@@ -257,10 +371,15 @@ const render = () => {
     $('#message-box').html(message);
 };
 
+const reset = () => {
+$('#field').empty();
+setUp();
+};
 
 const setUp = () => {
-    for (let i = 0; i < field.length; i++) {
-        const currentRow = field[i];
+    for (let i = 0; i < field2.length; i++) {
+        message = "Left click to reveal cell, Right click to toggle flag on cell.";
+        const currentRow = field2[i];
         const $field = $('#field');
         const $row = $('<div>').attr('id', "row-" + i);
         for (let j = 0; j < currentRow.length; j++) {
@@ -280,6 +399,7 @@ const setUp = () => {
         }
         $field.append($row);
     }
+    $('#reset').on('click',reset);
     $('#credits').hide();
 };
 
