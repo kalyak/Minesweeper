@@ -28,10 +28,12 @@ const levels = {
 }
 
 const levelSelection = () => {
+    $('#credits').hide();
     $('#easy').on('click', easyLevel);
     $('#medium').on('click', mediumLevel);
     $('#hard').on('click', hardLevel);
     message = "Please select your level.";
+
     render();
 }
 
@@ -39,21 +41,21 @@ const easyLevel = () => {
     const noOfRows = levels["easy"][0]["noOfRows"];
     const noOfCols = levels["easy"][0]["noOfCols"];
     const noOfMines = levels["easy"][0]["noOfMines"];
-    generateRandomArray(noOfRows, noOfCols, noOfMines,randomGrid);
+    generateRandomArray(noOfRows, noOfCols, noOfMines, randomGrid);
 };
 
 const mediumLevel = () => {
     const noOfRows = levels["medium"][0]["noOfRows"];
     const noOfCols = levels["medium"][0]["noOfCols"];
     const noOfMines = levels["medium"][0]["noOfMines"];
-    generateRandomArray(noOfRows, noOfCols, noOfMines,randomGrid);
+    generateRandomArray(noOfRows, noOfCols, noOfMines, randomGrid);
 };
 
 const hardLevel = () => {
     const noOfRows = levels["hard"][0]["noOfRows"];
     const noOfCols = levels["hard"][0]["noOfCols"];
     const noOfMines = levels["hard"][0]["noOfMines"];
-    generateRandomArray(noOfRows, noOfCols, noOfMines,randomGrid);
+    generateRandomArray(noOfRows, noOfCols, noOfMines, randomGrid);
 };
 
 const generateRandomArray = (noOfRows, noOfCols, noOfMines, randomGrid) => {
@@ -161,6 +163,7 @@ const numberToGrid = (randomGrid = [], bombCoord = []) => {
 
 const fieldGeneration = (randomGrid) => {
     $('#level-select').hide();
+    noOfMines = 0;
     for (let i = 0; i < randomGrid.length; i++) {
         message = "Left click to reveal cell, Right click to toggle flag on cell.";
         const currentRow = randomGrid[i];
@@ -184,7 +187,6 @@ const fieldGeneration = (randomGrid) => {
         $field.append($row);
     };
     $('#reset').on('click', reset);
-    $('#credits').hide();
     render();
 };
 
@@ -593,29 +595,29 @@ const field2 = [
     ]
 ];
 
-const setUp = () => {
-    for (let i = 0; i < field2.length; i++) {
-        message = "Left click to reveal cell, Right click to toggle flag on cell.";
-        const currentRow = field2[i];
-        const $field = $('#field');
-        const $row = $('<div>').attr('id', "row-" + i);
-        for (let j = 0; j < currentRow.length; j++) {
-            const currentCell = currentRow[j][0].value;
-            if (currentCell === "B") {
-                noOfMines++;
-            }
-            const $col = $('<button>')
-                .attr({
-                    'id': "col-" + j,
-                    'class': currentRow[j][0].state
-                })
-                .html(currentCell)
-                .on('click', clickCheck)
-                .on('contextmenu', flag);
-            $row.append($col);
-        }
-        $field.append($row);
-    }
-    $('#reset').on('click', reset);
-    $('#credits').hide();
-};
+// const setUp = () => {
+//     for (let i = 0; i < field2.length; i++) {
+//         message = "Left click to reveal cell, Right click to toggle flag on cell.";
+//         const currentRow = field2[i];
+//         const $field = $('#field');
+//         const $row = $('<div>').attr('id', "row-" + i);
+//         for (let j = 0; j < currentRow.length; j++) {
+//             const currentCell = currentRow[j][0].value;
+//             if (currentCell === "B") {
+//                 noOfMines++;
+//             }
+//             const $col = $('<button>')
+//                 .attr({
+//                     'id': "col-" + j,
+//                     'class': currentRow[j][0].state
+//                 })
+//                 .html(currentCell)
+//                 .on('click', clickCheck)
+//                 .on('contextmenu', flag);
+//             $row.append($col);
+//         }
+//         $field.append($row);
+//     }
+//     $('#reset').on('click', reset);
+//     $('#credits').hide();
+// };
