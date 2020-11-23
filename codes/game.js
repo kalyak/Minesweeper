@@ -251,9 +251,27 @@ const generateRandomArray = () => {
     const noOfRows = 4;
     const noOfCols = 6;
     const noOfMines = 3;
-    const randomGrid = [];
 
     //generate empty array
+    const randomGrid = gridGeneration(noOfRows, noOfCols);
+    console.log(randomGrid);
+
+    //generate coordinates for bombs
+    const bombCoord = bombCoordGeneration(noOfRows, noOfCols, noOfMines);
+    console.log(bombCoord);
+
+    //populate bomb location
+    bombToGrid(randomGrid, bombCoord);
+    console.log(randomGrid);
+
+    //add 1 to surrounding for every bomb
+    //send array to fieldGeneration()
+    fieldGeneration(randomGrid);
+    //console.log array
+};
+
+const gridGeneration = (noOfRows, noOfCols) => {
+    const randomGrid = [];
     for (let i = 0; i < noOfRows; i++) {
         const rowArray = [];
         for (let j = 0; j < noOfCols; j++) {
@@ -261,28 +279,18 @@ const generateRandomArray = () => {
         };
         randomGrid.push(rowArray);
     };
-    console.log(randomGrid);
-
-    //generate coordinates for bombs
-    const bombCoord = bombCoordGeneration(noOfRows, noOfCols, noOfMines);
-    console.log(bombCoord);
-    //populate bomb location
-
-    //add 1 to surrounding for every bomb
-    //send array to fieldGeneration()
-    fieldGeneration(randomGrid);
-    //console.log array
-}
+    return randomGrid;
+};
 
 const bombCoordGeneration = (noOfRows, noOfCols, noOfMines) => {
     const bombCoord = [];
     for (let k = 0; k < noOfMines; k++) {
         let newbomb = {
-            x: Math.floor(Math.random() * noOfRows),
-            y: Math.floor(Math.random() * noOfCols)
+            row: Math.floor(Math.random() * noOfRows),
+            col: Math.floor(Math.random() * noOfCols)
         }
         for (l = 0; l < k; l++) {
-            if ((bombCoord[l].x === newbomb.x) && (bombCoord[l].y === newbomb.y)) {
+            if ((bombCoord[l].row === newbomb.row) && (bombCoord[l].col === newbomb.col)) {
                 k--;
                 // console.log(bombCoord);
                 bombCoord.splice(l, 1);
@@ -296,7 +304,21 @@ const bombCoordGeneration = (noOfRows, noOfCols, noOfMines) => {
     // console.log(285);
     // console.log(bombCoord);
     return bombCoord;
-}
+};
+
+const bombToGrid = (randomGrid = [], bombCoord = []) => {
+    for (let i = 0; i < bombCoord.length; i++) {
+        bombRow = bombCoord[i].row;
+        bombCol = bombCoord[i].col;
+        randomGrid[bombRow][bombCol] = "B"
+    }
+};
+
+// const numberToGrid = (randomGrid = [], bombCoord = []) => {
+//     bombRow = bombCoord[i].row;
+//     bombCol = bombCoord[i].col;
+
+// };
 
 const fieldGeneration = (randomGrid) => {
     for (let i = 0; i < randomGrid.length; i++) {
@@ -308,7 +330,7 @@ const fieldGeneration = (randomGrid) => {
             const currentCell = currentRow[j];
             if (currentCell === "B") {
                 noOfMines++;
-            }
+            };
             const $col = $('<button>')
                 .attr({
                     'id': "col-" + j,
@@ -318,9 +340,9 @@ const fieldGeneration = (randomGrid) => {
                 .on('click', clickCheck)
                 .on('contextmenu', flag);
             $row.append($col);
-        }
+        };
         $field.append($row);
-    }
+    };
     $('#reset').on('click', reset);
     $('#credits').hide();
 };
