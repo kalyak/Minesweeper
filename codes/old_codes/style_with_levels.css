@@ -1,0 +1,60 @@
+body {
+    margin: 0 auto;
+}
+
+/* div {
+    border: 1px solid blue;
+    vertical-align: top;
+} */
+
+.field {
+    /* display: flex;
+    flex-direction: row nowrap;
+    justify-content: center; */
+    /* align-items: stretch; */
+    font-size: 0;
+}
+.field button {
+    border: none;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    /* display: inline-block; */
+    font-size: 12px;
+    width: 30px;
+    height: 30px;
+    /* border-radius: 1px; */
+    border: 1px solid black;
+    margin: 0;
+}
+.shown {
+color: white;
+background-color: slategrey;
+}
+
+.hidden, .zero, .bomb, .flag {
+/* color: darkgrey; */
+text-align: left;
+white-space: nowrap;
+overflow: hidden;
+text-indent: -9999px;
+}
+
+.hidden, .flag {
+    background-color: darkgrey;
+}
+
+.bomb {
+    background: url(../images/bomb.png) no-repeat;
+    background-size: cover;
+}
+
+.flag {
+    background: url(../images/flag.png) no-repeat;
+    background-size: cover;
+
+}
+
+.disabled {
+    pointer-events: none;
+}
