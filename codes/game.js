@@ -260,11 +260,10 @@ const generateRandomArray = () => {
     const bombCoord = bombCoordGeneration(noOfRows, noOfCols, noOfMines);
     console.log(bombCoord);
 
-    //populate bomb location
+    //populate bomb location & add 1 to surrounding for every bomb
     bombToGrid(randomGrid, bombCoord);
     console.log(randomGrid);
 
-    //add 1 to surrounding for every bomb
     //send array to fieldGeneration()
     fieldGeneration(randomGrid);
     //console.log array
@@ -312,13 +311,48 @@ const bombToGrid = (randomGrid = [], bombCoord = []) => {
         bombCol = bombCoord[i].col;
         randomGrid[bombRow][bombCol] = "B"
     }
+    numberToGrid(randomGrid, bombCoord);
 };
 
-// const numberToGrid = (randomGrid = [], bombCoord = []) => {
-//     bombRow = bombCoord[i].row;
-//     bombCol = bombCoord[i].col;
+const numberToGrid = (randomGrid = [], bombCoord = []) => {
+    for (let i = 0; i < bombCoord.length; i++) {
+        bombRow = bombCoord[i].row;
+        bombCol = bombCoord[i].col;
+        if ((bombCol !== 0) && (randomGrid[bombRow][bombCol - 1] !== "B")) {//left
+            randomGrid[bombRow][bombCol - 1]++;
+        };
 
-// };
+        if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow][bombCol + 1] !== "B")) {//right
+            randomGrid[bombRow][bombCol + 1]++;
+        };
+
+        if (bombRow !== 0) { //top row
+            if ((bombCol !== 0) && (randomGrid[bombRow - 1][bombCol - 1] !== "B")) {//top left
+                randomGrid[bombRow - 1][bombCol - 1]++;
+            };
+
+            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow - 1][bombCol + 1] !== "B")) {//top right
+                randomGrid[bombRow - 1][bombCol + 1]++;
+            };
+            if (randomGrid[bombRow - 1][bombCol] !== "B") {
+                randomGrid[bombRow - 1][bombCol]++; //top center
+            };
+        };
+
+        if (bombRow !== randomGrid.length - 1) { //bottom row
+            if ((bombCol !== 0) && (randomGrid[bombRow + 1][bombCol - 1] !== "B")) {//bottom left
+                randomGrid[bombRow + 1][bombCol - 1]++;
+            };
+
+            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow + 1][bombCol + 1] !== "B")) {//bottom right
+                randomGrid[bombRow + 1][bombCol + 1]++;
+            };
+            if (randomGrid[bombRow + 1][bombCol] !== "B") {
+                randomGrid[bombRow + 1][bombCol]++; //bottom center
+            };
+        };
+    }
+};
 
 const fieldGeneration = (randomGrid) => {
     for (let i = 0; i < randomGrid.length; i++) {
