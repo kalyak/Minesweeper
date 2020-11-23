@@ -34,12 +34,23 @@ color: white;
 background-color: slategrey;
 }
 
-.hidden, .zero {
+.hidden, .zero, .bomb, .flag {
 color: darkgrey;
 text-align: left;
 white-space: nowrap;
 overflow: hidden;
 text-indent: -9999px;
+}
+
+.bomb {
+    background: url(../images/bomb.png) no-repeat;
+    background-size: cover;
+}
+
+.flag {
+    background: url(../images/flag.png) no-repeat;
+    background-size: cover;
+
 }
 
 .disabled {

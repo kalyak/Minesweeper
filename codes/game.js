@@ -1,3 +1,7 @@
+$(document).bind("contextmenu", function (e) { //disable right click menu pop up
+    return false;
+});
+
 const field = [
     [
         [{
@@ -149,8 +153,26 @@ const clickCheck = (event) => {
             console.log($clickVal + " is selected");
             openSurrounding(event);
         }
+        checkWin();
     }
     //``````````start of click tests ```````````````//
+};
+
+const checkWin = () => {
+    $noOfHidden = $('.hidden').length;
+    $noOfFlags = $('.flag').length;
+    $noOfSuccessfulFlags = $('.flag:contains("B")').length;
+    // console.log("Flags: " + $noOfFlags);
+    // console.log("Successful flags: " + $noOfSuccessfulFlags);
+    // console.log("No of mines: " + noOfMines);
+    if ($noOfHidden === noOfMines) {
+        $('button').addClass("disabled");
+        message = "Congratulations! You have successfully navigated this field.";
+    } else if (($noOfFlags === $noOfSuccessfulFlags) && ($noOfSuccessfulFlags === noOfMines)) {
+        $('button').addClass("disabled");
+        message = "Congratulations! You have flagged all the mines!"
+    }
+    render();
 };
 
 const convertCoords = (event) => {
@@ -218,10 +240,18 @@ const showButton = (event, $clickVal) => {
 
 const clickedBomb = (event) => {
     $('button').addClass("disabled");
+    $bombs = $('button:contains("B")').addClass("bomb");
+    console.log(`bombs displayed`);
     message = "Game Over";
     render();
 };
 
+const flag = (event) => {
+    // console.log("Right-clicked!")
+    $(event.target).toggleClass("flag");
+    // console.log(`flag added`);
+    checkWin();
+}
 
 const render = () => {
     $('#message-box').html(message);
@@ -244,11 +274,13 @@ const setUp = () => {
                     'class': currentRow[j][0].state
                 })
                 .html(currentCell)
-                .on('click', clickCheck);
+                .on('click', clickCheck)
+                .on('contextmenu', flag);
             $row.append($col);
         }
         $field.append($row);
     }
+    $('#credits').hide();
 };
 
 
@@ -258,5 +290,5 @@ $(() => {
 });
 
 //change button id to num, blank or bomb?
-//render without number in html when hidden, only put in html when clicked => to prevent cheating by highlighting
-//using navigations of siblings?
+//render without number in html when hidden, only put in html when clicked => to prevent cheating by highlighting. // Done
+//using navigations of siblings? // Done
