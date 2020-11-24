@@ -57,7 +57,7 @@ const gridGeneration = (noOfRows, noOfCols, randomGrid) => {
         let newRow = new Array(noOfCols).fill(0);
         randomGrid.push(newRow);
     };
-    console.log(randomGrid);
+    // console.log(randomGrid);
     return randomGrid;
 };
 
