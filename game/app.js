@@ -34,24 +34,21 @@ const levelSelection = () => {
     const noOfRows = levels[$selectedLevel][0]["noOfRows"];
     const noOfCols = levels[$selectedLevel][0]["noOfCols"];
     const noOfMines = levels[$selectedLevel][0]["noOfMines"];
-    generateRandomArray(noOfRows, noOfCols, noOfMines, randomGrid);
-}
+    generateRandomField(noOfRows, noOfCols, noOfMines, randomGrid);
+};
 
-const generateRandomArray = (noOfRows, noOfCols, noOfMines, randomGrid) => {
-    //generate empty array
-    gridGeneration(noOfRows, noOfCols, randomGrid);
+const generateRandomField = (noOfRows, noOfCols, noOfMines, randomGrid) => {
+
+    gridGeneration(noOfRows, noOfCols, randomGrid); //generate empty array
     // console.log(randomGrid);
 
-    //generate coordinates for bombs
-    const bombCoord = bombCoordGeneration(noOfRows, noOfCols, noOfMines);
+    const bombCoord = bombCoordGeneration(noOfRows, noOfCols, noOfMines); //generate coordinates for bombs
     // console.log(bombCoord);
 
-    //populate bomb location & add 1 to surrounding for every bomb
-    bombToGrid(randomGrid, bombCoord);
+    bombToGrid(randomGrid, bombCoord); //populate bomb location & add 1 to surrounding for every bomb
     // console.log(randomGrid);
 
-    //send array to fieldGeneration()
-    fieldGeneration(randomGrid);
+    fieldGeneration(randomGrid); //generate field onscreen
     //console.log array
 };
 
@@ -66,22 +63,22 @@ const gridGeneration = (noOfRows, noOfCols, randomGrid) => {
 
 const bombCoordGeneration = (noOfRows, noOfCols, noOfMines) => {
     const bombCoord = [];
-    for (let k = 0; k < noOfMines; k++) {
+    for (let i = 0; i < noOfMines; i++) {
         let newbomb = {
             row: Math.floor(Math.random() * noOfRows),
             col: Math.floor(Math.random() * noOfCols)
         }
 
-        let l = 0; //to search from first existing coord
-        while ((l !== k) && !((bombCoord[l].row === newbomb.row) && (bombCoord[l].col === newbomb.col))) {
-            l++; //check next in array
+        let j = 0; //to search from first existing coord
+        while ((j !== i) && !((bombCoord[j].row === newbomb.row) && (bombCoord[j].col === newbomb.col))) {
+            j++; //check next in existing array
         };
 
-        if (l === k) { //no existing coord found
+        if (j === i) { //no existing coord found
             bombCoord.push(newbomb);
             // console.log(`no repeat for ${l}`)
         } else { //existing coord found
-            k--; //discard current coord and reduce count of successfully logged coords.
+            i--; //discard current coord and reduce count of successfully logged coords.
             // console.log("same as " + l);
         };
 
@@ -95,7 +92,7 @@ const bombToGrid = (randomGrid = [], bombCoord = []) => {
         bombRow = bombCoord[i].row;
         bombCol = bombCoord[i].col;
         randomGrid[bombRow][bombCol] = bomb;
-    }
+    };
     numberToGrid(randomGrid, bombCoord);
 };
 
@@ -103,37 +100,42 @@ const numberToGrid = (randomGrid = [], bombCoord = []) => {
     for (let i = 0; i < bombCoord.length; i++) {
         bombRow = bombCoord[i].row;
         bombCol = bombCoord[i].col;
-        if ((bombCol !== 0) && (randomGrid[bombRow][bombCol - 1] !== bomb)) {//left
-            randomGrid[bombRow][bombCol - 1]++;
+        rowAbove = bombRow - 1;
+        rowBelow = bombRow + 1;
+        colLeft = bombCol - 1;
+        colRight = bombCol + 1;
+
+        if ((bombCol !== 0) && (randomGrid[bombRow][colLeft] !== bomb)) {//left
+            randomGrid[bombRow][colLeft]++;
         };
 
-        if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow][bombCol + 1] !== bomb)) {//right
-            randomGrid[bombRow][bombCol + 1]++;
+        if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow][colRight] !== bomb)) {//right
+            randomGrid[bombRow][colRight]++;
         };
 
         if (bombRow !== 0) { //top row
-            if ((bombCol !== 0) && (randomGrid[bombRow - 1][bombCol - 1] !== bomb)) {//top left
-                randomGrid[bombRow - 1][bombCol - 1]++;
+            if ((bombCol !== 0) && (randomGrid[rowAbove][colLeft] !== bomb)) {//top left
+                randomGrid[rowAbove][colLeft]++;
             };
 
-            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow - 1][bombCol + 1] !== bomb)) {//top right
-                randomGrid[bombRow - 1][bombCol + 1]++;
+            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[rowAbove][colRight] !== bomb)) {//top right
+                randomGrid[rowAbove][colRight]++;
             };
-            if (randomGrid[bombRow - 1][bombCol] !== bomb) {
-                randomGrid[bombRow - 1][bombCol]++; //top center
+            if (randomGrid[rowAbove][bombCol] !== bomb) {
+                randomGrid[rowAbove][bombCol]++; //top center
             };
         };
 
         if (bombRow !== randomGrid.length - 1) { //bottom row
-            if ((bombCol !== 0) && (randomGrid[bombRow + 1][bombCol - 1] !== bomb)) {//bottom left
-                randomGrid[bombRow + 1][bombCol - 1]++;
+            if ((bombCol !== 0) && (randomGrid[rowBelow][colLeft] !== bomb)) {//bottom left
+                randomGrid[rowBelow][colLeft]++;
             };
 
-            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow + 1][bombCol + 1] !== bomb)) {//bottom right
-                randomGrid[bombRow + 1][bombCol + 1]++;
+            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[rowBelow][colRight] !== bomb)) {//bottom right
+                randomGrid[rowBelow][colRight]++;
             };
-            if (randomGrid[bombRow + 1][bombCol] !== bomb) {
-                randomGrid[bombRow + 1][bombCol]++; //bottom center
+            if (randomGrid[rowBelow][bombCol] !== bomb) {
+                randomGrid[rowBelow][bombCol]++; //bottom center
             };
         };
     }
@@ -183,14 +185,10 @@ const clickCheck = (event) => {
             clickedBomb(event);
             // console.log("Bomb");
         } else if ($clickVal === "0") {
-            //     // console.log($clickVal + " is ")
-            // } else {
-            // console.log($clickVal + " is selected");
             openSurrounding(event);
-        }
+        };
         checkWin();
     }
-    //``````````start of click tests ```````````````//
 };
 
 const checkWin = () => {
@@ -206,61 +204,61 @@ const checkWin = () => {
         message = "Congratulations! You have successfully navigated this field.";
     } else if (($noOfFlags === $noOfSuccessfulFlags) && ($noOfSuccessfulFlags === noOfMines)) {
         disableField();
-        message = "Congratulations! You have flagged all the mines!"
+        message = "Congratulations! You have flagged all the mines!";
     }
     render();
 };
 
 const convertCoords = (event) => {
-    // const col = $(event.target).attr('id').split("-").pop();
-    // const row = $(event.target).parent().attr('id').split("-").pop();
-    // const butt = $(event.target);
-    // console.log(col);
-    // console.log(row);
-    // console.log(butt);
     const cellCoord = {
         row: parseInt($(event.target).parent().attr('id').split("-").pop()),
         col: parseInt($(event.target).attr('id').split("-").pop())
     }
     return cellCoord;
-}
+};
 
 const openSurrounding = (event) => {
     // console.log(randomGrid);
     const cellCoord = convertCoords(event); //get cell coord in object {row, col}
-    if (cellCoord.col !== 0) { //if cell is not leftmost cell
-        $(event.target).prev().click(); //left cell click
-    }
+    const currentCol = cellCoord.col;
+    const left = currentCol - 1;
+    const right = currentCol + 1;
+    const currentRow = cellCoord.row;
+    const above = currentRow - 1;
+    const below = currentRow + 1;
+    if (currentCol !== 0) { //if cell is not leftmost cell
+        $(`#row-${currentRow}>#col-${left}`).click(); //left cell click
+    };
 
-    if (cellCoord.col < (randomGrid[0].length - 1)) { //if cell is not rightmost cell
-        $(event.target).next().click(); //right cell click
-    }
+    if (currentCol < (randomGrid[0].length - 1)) { //if cell is not rightmost cell
+        $(`#row-${currentRow}>#col-${right}`).click(); //right cell click
+    };
 
-    if (cellCoord.row !== 0) { //if cell is not in top row
-        if (cellCoord.col !== 0) {
-            $(event.target).parent().prev().children().eq(cellCoord.col - 1).click(); //above left cell click
+    if (currentRow !== 0) { //if cell is not in top row
+        if (currentCol !== 0) {
+            $(`#row-${above}>#col-${left}`).click(); //above left cell click
         }
 
-        if (cellCoord.col < (randomGrid[0].length - 1)) {
-            $(event.target).parent().prev().children().eq(cellCoord.col + 1).click(); //above right cell click
+        if (currentCol < (randomGrid[0].length - 1)) {
+            $(`#row-${above}>#col-${right}`).click(); //above right cell click
         }
 
-        $(event.target).parent().prev().children().eq(cellCoord.col).click(); //above center cell click
+        $(`#row-${above}>#col-${currentCol}`).click(); //above center cell click
     }
 
-    if (cellCoord.row < (randomGrid.length - 1)) { //if cell is not in bottom row
-        if (cellCoord.col !== 0) {
-            $(event.target).parent().next().children().eq(cellCoord.col - 1).click(); //below left cell click
+    if (currentRow < (randomGrid.length - 1)) { //if cell is not in bottom row
+        if (currentCol !== 0) {
+            $(`#row-${below}>#col-${left}`).click(); //below left cell click
         }
 
-        if (cellCoord.col < (randomGrid[0].length - 1)) {
-            $(event.target).parent().next().children().eq(cellCoord.col + 1).click(); //below right cell click
+        if (currentCol < (randomGrid[0].length - 1)) {
+            $(`#row-${below}>#col-${right}`).click(); //below right cell click
         }
 
-        $(event.target).parent().next().children().eq(cellCoord.col).click(); //below center cell click
+        $(`#row-${below}>#col-${currentCol}`).click(); //below center cell click
     }
 
-}
+};
 
 const disableButton = (event) => {
     $(event.target).addClass("disabled");
