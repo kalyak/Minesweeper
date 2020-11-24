@@ -56,15 +56,12 @@ const generateRandomArray = (noOfRows, noOfCols, noOfMines, randomGrid) => {
 };
 
 const gridGeneration = (noOfRows, noOfCols, randomGrid) => {
-    // const randomGrid = [];
     for (let i = 0; i < noOfRows; i++) {
-        const rowArray = [];
-        for (let j = 0; j < noOfCols; j++) {
-            rowArray.push(0);
-        };
-        randomGrid.push(rowArray);
+        let newRow = new Array(noOfCols).fill(0);
+        randomGrid.push(newRow);
     };
-    // return randomGrid;
+    console.log(randomGrid);
+    return randomGrid;
 };
 
 const bombCoordGeneration = (noOfRows, noOfCols, noOfMines) => {
