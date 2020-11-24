@@ -74,19 +74,21 @@ const bombCoordGeneration = (noOfRows, noOfCols, noOfMines) => {
             row: Math.floor(Math.random() * noOfRows),
             col: Math.floor(Math.random() * noOfCols)
         }
-        for (l = 0; l < k; l++) {
-            if ((bombCoord[l].row === newbomb.row) && (bombCoord[l].col === newbomb.col)) {
-                k--;
-                // console.log(bombCoord);
-                bombCoord.splice(l, 1);
-            };
-            // console.log(279)
-        }
-        // console.log(281);
-        bombCoord.push(newbomb);
+
+        let l = 0; //to search from first existing coord
+        while ((l !== k) && !((bombCoord[l].row === newbomb.row) && (bombCoord[l].col === newbomb.col))) {
+            l++; //check next in array
+        };
+
+        if (l === k) { //no existing coord found
+            bombCoord.push(newbomb);
+            // console.log(`no repeat for ${l}`)
+        } else { //existing coord found
+            k--; //discard current coord and reduce count of successfully logged coords.
+            // console.log("same as " + l);
+        };
 
     };
-    // console.log(285);
     // console.log(bombCoord);
     return bombCoord;
 };
@@ -95,7 +97,7 @@ const bombToGrid = (randomGrid = [], bombCoord = []) => {
     for (let i = 0; i < bombCoord.length; i++) {
         bombRow = bombCoord[i].row;
         bombCol = bombCoord[i].col;
-        randomGrid[bombRow][bombCol] = bomb
+        randomGrid[bombRow][bombCol] = bomb;
     }
     numberToGrid(randomGrid, bombCoord);
 };
@@ -340,7 +342,8 @@ $(() => {
 //using navigations of siblings? // Done
 
 //level selection: dropdown selection => show grid size and number of bombs
-
+//change for loop in bombCoordGeneration to while loop
+//change array.fill for gridGeneration
 
 // const timer = setInterval(() => {
 //     $('#timer').text(game.timer);
