@@ -1,5 +1,5 @@
 # SEI-26-Project-1
-This is the repository for my first project in SEI-26
+You can play the game at https://pages.git.generalassemb.ly/kkusumad/Minesweeper/game/minesweeper.html
 
 -Objective of the game
 1. Flag out all of the mines or successfully reveal all of the boxes except for the mines.

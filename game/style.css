@@ -3,6 +3,11 @@ body {
     text-align: center;
     background-color: teal;
 }
+
+/* body.mono {
+    background-color: black;
+} */
+
 #header {
     background-color: midnightblue;
     color: cornsilk;

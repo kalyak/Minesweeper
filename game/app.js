@@ -31,34 +31,20 @@ const levelSelection = () => {
     $('#credits').hide();
     $('#scoreboard').hide();
     $('#reset').hide();
-    $('#easy').on('click', easyLevel);
-    $('#medium').on('click', mediumLevel);
-    $('#hard').on('click', hardLevel);
-    message = "Please select your level.";
+    $('#level-select-btn').on('click',levelGo);
+    message = "Please select your level below.";
 
     render();
 }
 
-const easyLevel = () => {
-    const noOfRows = levels["easy"][0]["noOfRows"];
-    const noOfCols = levels["easy"][0]["noOfCols"];
-    const noOfMines = levels["easy"][0]["noOfMines"];
+const levelGo = () => {
+    const $selectedLevel = $('#levels option:selected').val();
+    // console.log($selectedLevel);
+    const noOfRows = levels[$selectedLevel][0]["noOfRows"];
+    const noOfCols = levels[$selectedLevel][0]["noOfCols"];
+    const noOfMines = levels[$selectedLevel][0]["noOfMines"];
     generateRandomArray(noOfRows, noOfCols, noOfMines, randomGrid);
-};
-
-const mediumLevel = () => {
-    const noOfRows = levels["medium"][0]["noOfRows"];
-    const noOfCols = levels["medium"][0]["noOfCols"];
-    const noOfMines = levels["medium"][0]["noOfMines"];
-    generateRandomArray(noOfRows, noOfCols, noOfMines, randomGrid);
-};
-
-const hardLevel = () => {
-    const noOfRows = levels["hard"][0]["noOfRows"];
-    const noOfCols = levels["hard"][0]["noOfCols"];
-    const noOfMines = levels["hard"][0]["noOfMines"];
-    generateRandomArray(noOfRows, noOfCols, noOfMines, randomGrid);
-};
+}
 
 const generateRandomArray = (noOfRows, noOfCols, noOfMines, randomGrid) => {
     //generate empty array
@@ -339,14 +325,6 @@ const reset = () => {
     $('#reset').hide();
 };
 
-// const timer = setInterval(() => {
-//     $('#timer').text(game.timer);
-//     if (game.timer === 0) {
-//         clearInterval(timer);
-//     }
-//     game.timer--;
-// }, 1000);
-
 $(() => {
     levelSelection();
     // generateRandomArray();
@@ -361,3 +339,12 @@ $(() => {
 //using navigations of siblings? // Done
 
 //level selection: dropdown selection => show grid size and number of bombs
+
+
+// const timer = setInterval(() => {
+//     $('#timer').text(game.timer);
+//     if (game.timer === 0) {
+//         clearInterval(timer);
+//     }
+//     game.timer--;
+// }, 1000);
