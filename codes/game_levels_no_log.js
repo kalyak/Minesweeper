@@ -30,6 +30,7 @@ const levels = {
 const levelSelection = () => {
     $('#credits').hide();
     $('#scoreboard').hide();
+    $('#reset').hide();
     $('#easy').on('click', easyLevel);
     $('#medium').on('click', mediumLevel);
     $('#hard').on('click', hardLevel);
@@ -188,7 +189,7 @@ const fieldGeneration = (randomGrid) => {
         };
         $field.append($row);
     };
-    $('#reset').on('click', reset);
+    $('#reset').on('click', reset).show();
     render();
 };
 
@@ -203,7 +204,7 @@ const clickCheck = (event) => {
         showButton(event, $clickVal);
         disableButton(event);
         if ($clickVal === "B") {
-            clickedBomb();
+            clickedBomb(event);
             // console.log("Bomb");
         } else if ($clickVal === "0") {
         //     // console.log($clickVal + " is ")
@@ -304,6 +305,7 @@ const disableField = () => {
 };
 
 const clickedBomb = (event) => {
+    $(event.target).addClass("clicked");
     disableField();
     $('button:contains("B")').addClass("bomb");
     $('.flag:not(:contains("B"))').addClass("wrong");
@@ -321,7 +323,7 @@ const flag = (event) => {
 
 const render = () => {
     $('#message-box').html(message);
-    const flagsLeft = $('.hidden:contains("B")').length - $('.flag').length;
+    const flagsLeft = $('.hidden:contains("B")').length - $('.flag').length + $('.wrong').length;
     $('#mines-left').html(flagsLeft);
 };
 
@@ -334,6 +336,7 @@ const reset = () => {
     render();
     $('#level-select').show();
     $('#scoreboard').hide();
+    $('#reset').hide();
 };
 
 

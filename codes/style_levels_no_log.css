@@ -1,7 +1,20 @@
 body {
     margin: 0 auto;
     text-align: center;
+    background-color: teal;
 }
+#header {
+    background-color: midnightblue;
+    color: cornsilk;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding-bottom: 20px;
+    border-style: ridge;
+    border-color: darkred;
+    border-width: 5px;
+    box-sizing:border-box;
+  }
 
 /* div {
     border: 1px solid blue;
@@ -9,6 +22,7 @@ body {
 } */
 
 .field {
+    margin-top: 200px;
     /* display: flex;
     flex-direction: row nowrap;
     justify-content: center; */
@@ -50,6 +64,10 @@ text-indent: -9999px;
     background-size: cover;
 }
 
+.clicked {
+    background-color: crimson;
+}
+
 .flag {
     background: url(../images/flag.png) no-repeat;
     background-size: cover;
@@ -64,3 +82,7 @@ text-indent: -9999px;
 .disabled {
     pointer-events: none;
 }
+
+/* @media all (min-width:520px) {
+    
+} */
