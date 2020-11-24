@@ -5,6 +5,7 @@ $(document).bind("contextmenu", function (e) { //disable right click menu pop up
 let message = "";
 let noOfMines = 0;
 const randomGrid = [];
+const bomb = "B";
 
 const levels = {
     easy: [{
@@ -28,16 +29,6 @@ const levels = {
 }
 
 const levelSelection = () => {
-    $('#credits').hide();
-    $('#scoreboard').hide();
-    $('#reset').hide();
-    $('#level-select-btn').on('click',levelGo);
-    message = "Please select your level below.";
-
-    render();
-}
-
-const levelGo = () => {
     const $selectedLevel = $('#levels option:selected').val();
     // console.log($selectedLevel);
     const noOfRows = levels[$selectedLevel][0]["noOfRows"];
@@ -104,7 +95,7 @@ const bombToGrid = (randomGrid = [], bombCoord = []) => {
     for (let i = 0; i < bombCoord.length; i++) {
         bombRow = bombCoord[i].row;
         bombCol = bombCoord[i].col;
-        randomGrid[bombRow][bombCol] = "B"
+        randomGrid[bombRow][bombCol] = bomb
     }
     numberToGrid(randomGrid, bombCoord);
 };
@@ -113,36 +104,36 @@ const numberToGrid = (randomGrid = [], bombCoord = []) => {
     for (let i = 0; i < bombCoord.length; i++) {
         bombRow = bombCoord[i].row;
         bombCol = bombCoord[i].col;
-        if ((bombCol !== 0) && (randomGrid[bombRow][bombCol - 1] !== "B")) {//left
+        if ((bombCol !== 0) && (randomGrid[bombRow][bombCol - 1] !== bomb)) {//left
             randomGrid[bombRow][bombCol - 1]++;
         };
 
-        if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow][bombCol + 1] !== "B")) {//right
+        if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow][bombCol + 1] !== bomb)) {//right
             randomGrid[bombRow][bombCol + 1]++;
         };
 
         if (bombRow !== 0) { //top row
-            if ((bombCol !== 0) && (randomGrid[bombRow - 1][bombCol - 1] !== "B")) {//top left
+            if ((bombCol !== 0) && (randomGrid[bombRow - 1][bombCol - 1] !== bomb)) {//top left
                 randomGrid[bombRow - 1][bombCol - 1]++;
             };
 
-            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow - 1][bombCol + 1] !== "B")) {//top right
+            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow - 1][bombCol + 1] !== bomb)) {//top right
                 randomGrid[bombRow - 1][bombCol + 1]++;
             };
-            if (randomGrid[bombRow - 1][bombCol] !== "B") {
+            if (randomGrid[bombRow - 1][bombCol] !== bomb) {
                 randomGrid[bombRow - 1][bombCol]++; //top center
             };
         };
 
         if (bombRow !== randomGrid.length - 1) { //bottom row
-            if ((bombCol !== 0) && (randomGrid[bombRow + 1][bombCol - 1] !== "B")) {//bottom left
+            if ((bombCol !== 0) && (randomGrid[bombRow + 1][bombCol - 1] !== bomb)) {//bottom left
                 randomGrid[bombRow + 1][bombCol - 1]++;
             };
 
-            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow + 1][bombCol + 1] !== "B")) {//bottom right
+            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow + 1][bombCol + 1] !== bomb)) {//bottom right
                 randomGrid[bombRow + 1][bombCol + 1]++;
             };
-            if (randomGrid[bombRow + 1][bombCol] !== "B") {
+            if (randomGrid[bombRow + 1][bombCol] !== bomb) {
                 randomGrid[bombRow + 1][bombCol]++; //bottom center
             };
         };
@@ -160,7 +151,7 @@ const fieldGeneration = (randomGrid) => {
         const $row = $('<div>').attr('id', "row-" + i);
         for (let j = 0; j < currentRow.length; j++) {
             const currentCell = currentRow[j];
-            if (currentCell === "B") {
+            if (currentCell === bomb) {
                 noOfMines++;
             };
             const $col = $('<button>')
@@ -189,12 +180,12 @@ const clickCheck = (event) => {
         const $clickVal = $(event.target).html();
         showButton(event, $clickVal);
         disableButton(event);
-        if ($clickVal === "B") {
+        if ($clickVal === bomb) {
             clickedBomb(event);
             // console.log("Bomb");
         } else if ($clickVal === "0") {
-        //     // console.log($clickVal + " is ")
-        // } else {
+            //     // console.log($clickVal + " is ")
+            // } else {
             // console.log($clickVal + " is selected");
             openSurrounding(event);
         }
@@ -206,7 +197,7 @@ const clickCheck = (event) => {
 const checkWin = () => {
     $noOfHidden = $('.hidden').length;
     $noOfFlags = $('.flag').length;
-    $noOfSuccessfulFlags = $('.flag:contains("B")').length;
+    $noOfSuccessfulFlags = $(`.flag:contains(${bomb})`).length;
     // console.log("Flags: " + $noOfFlags);
     // console.log("Successful flags: " + $noOfSuccessfulFlags);
     // console.log("No of mines: " + noOfMines);
@@ -293,8 +284,8 @@ const disableField = () => {
 const clickedBomb = (event) => {
     $(event.target).addClass("clicked");
     disableField();
-    $('button:contains("B")').addClass("bomb");
-    $('.flag:not(:contains("B"))').addClass("wrong");
+    $(`button:contains(${bomb})`).addClass("bomb");
+    $(`.flag:not(:contains(${bomb}))`).addClass("wrong");
     // console.log(`bombs displayed`);
     message = "Game Over";
     render();
@@ -309,7 +300,7 @@ const flag = (event) => {
 
 const render = () => {
     $('#message-box').html(message);
-    const flagsLeft = $('.hidden:contains("B")').length - $('.flag').length + $('.wrong').length;
+    const flagsLeft = $(`.hidden:contains(${bomb})`).length - $('.flag').length + $('.wrong').length;
     $('#mines-left').html(flagsLeft);
 };
 
@@ -320,15 +311,25 @@ const reset = () => {
     message = "Please select your level."
     noOfMines = 0;
     render();
+    $('#levels').val("empty");
     $('#level-select').show();
     $('#scoreboard').hide();
     $('#reset').hide();
 };
 
+const setUp = () => {
+    $('#credits').hide();
+    $('#scoreboard').hide();
+    $('#reset').hide();
+    $('#level-select-btn').on('click', levelSelection);
+    message = "Please select your level below.";
+    render();
+};
+
 $(() => {
-    levelSelection();
+    // levelSelection();
     // generateRandomArray();
-    // setUp();
+    setUp();
     // render();
 });
 
