@@ -20,8 +20,8 @@ const levels = {
     }
     ],
     hard: [{
-        noOfRows: 16,
-        noOfCols: 30,
+        noOfRows: 30,
+        noOfCols: 16,
         noOfMines: 99
     }
     ]
@@ -305,7 +305,8 @@ const disableField = () => {
 
 const clickedBomb = (event) => {
     disableField();
-    $bombs = $('button:contains("B")').addClass("bomb");
+    $('button:contains("B")').addClass("bomb");
+    $('.flag:not(:contains("B"))').addClass("wrong");
     // console.log(`bombs displayed`);
     message = "Game Over";
     render();

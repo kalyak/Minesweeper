@@ -3,10 +3,10 @@ body {
     text-align: center;
 }
 
-div {
+/* div {
     border: 1px solid blue;
     vertical-align: top;
-}
+} */
 
 .field {
     /* display: flex;
@@ -54,6 +54,11 @@ text-indent: -9999px;
     background: url(../images/flag.png) no-repeat;
     background-size: cover;
 
+}
+
+.wrong {
+    background: url(../images/cross.png) no-repeat;
+    background-size: cover;
 }
 
 .disabled {
