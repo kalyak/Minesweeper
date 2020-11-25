@@ -41,12 +41,16 @@ const levelSelection = () => {
     const noOfCols = levels[$selectedLevel][0]["noOfCols"];
     const noOfMines = levels[$selectedLevel][0]["noOfMines"];
     generateRandomField(noOfRows, noOfCols, noOfMines, randomGrid);
-    
+
     if ($selectedLevel === "tutorial") {
-        const $emptyCells = $('button:contains("0")');
-        const $noOfEmptyCells = $emptyCells.length;
-        $emptyCells.eq(Math.floor(Math.random()*$noOfEmptyCells)).click();
+        tutorialLevel();
     };
+};
+
+const tutorialLevel = () => {
+    const $emptyCells = $('button:contains("0")');
+    const $noOfEmptyCells = $emptyCells.length;
+    $emptyCells.eq(Math.floor(Math.random() * $noOfEmptyCells)).click();
 };
 
 const generateRandomField = (noOfRows, noOfCols, noOfMines, randomGrid) => {
@@ -179,7 +183,7 @@ const fieldGeneration = (randomGrid) => {
         };
         $field.append($row);
     };
-    $('#reset').on('click', reset).show();
+    $('#reset-trigger').show();
     render();
 };
 
@@ -323,14 +327,18 @@ const reset = () => {
     $('#levels').val("empty");
     $('#level-select').show();
     $('#scoreboard').hide();
-    $('#reset').hide();
+    // $('#reset').hide();
+    $('#reset-trigger').hide();
+    $('.modal').hide();
 };
 
 const setUp = () => {
     $('#credits').hide();
     $('#scoreboard').hide();
-    $('#reset').hide();
     $('#level-select-btn').on('click', levelSelection);
+    $('#reset-trigger').on('click',() => {$('.modal').show()});
+    $('.close').on('click',() => {$('.modal').hide()});
+    $('#reset-cfm').on('click', reset);
     message = "Please select your level below.";
     render();
 };
@@ -343,17 +351,16 @@ $(() => {
 });
 
 
+//level selection: dropdown selection => show grid size and number of bombs
+//have changing status of all cells be in game state and render from there => lag?
+//have a confirmation for reset
 
 //change button id to num, blank or bomb?
 //render without number in html when hidden, only put in html when clicked => to prevent cheating by highlighting. // Done
 //using navigations of siblings? // Done
 //change for loop in bombCoordGeneration to while loop // Done
 //change array.fill for gridGeneration // Done
-
-//level selection: dropdown selection => show grid size and number of bombs
-//have changing status of all cells be in game state and render from there => lag?
-//have a confirmation for reset
-//tutorial/easy mode open any blank.
+//tutorial/easy mode open any blank. // Done
 
 // const timer = setInterval(() => {
 //     $('#timer').text(game.timer);
