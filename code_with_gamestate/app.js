@@ -40,7 +40,7 @@ const levelSelection = () => {
     const noOfRows = levels[$selectedLevel][0]["noOfRows"];
     const noOfCols = levels[$selectedLevel][0]["noOfCols"];
     const noOfMines = levels[$selectedLevel][0]["noOfMines"];
-    generateRandomField(noOfRows, noOfCols, noOfMines, randomGrid);
+    generateRandomField(noOfRows, noOfCols, noOfMines);
 
     if ($selectedLevel === "tutorial") {
         tutorialLevel();
@@ -53,28 +53,32 @@ const tutorialLevel = () => {
     $emptyCells.eq(Math.floor(Math.random() * $noOfEmptyCells)).click();
 };
 
-const generateRandomField = (noOfRows, noOfCols, noOfMines, randomGrid) => {
+const generateRandomField = (noOfRows, noOfCols, noOfMines) => {
 
-    gridGeneration(noOfRows, noOfCols, randomGrid); //generate empty array
+    gridGeneration(noOfRows, noOfCols); //generate empty array
     // console.log(randomGrid);
 
     const bombCoord = bombCoordGeneration(noOfRows, noOfCols, noOfMines); //generate coordinates for bombs
     // console.log(bombCoord);
 
-    bombToGrid(randomGrid, bombCoord); //populate bomb location & add 1 to surrounding for every bomb
-    // console.log(randomGrid);
+    bombToGrid(bombCoord); //populate bomb location & add 1 to surrounding for every bomb
+    console.log(randomGrid);
 
-    fieldGeneration(randomGrid); //generate field onscreen
+    // fieldGeneration(randomGrid); //generate field onscreen
     //console.log array
 };
 
-const gridGeneration = (noOfRows, noOfCols, randomGrid) => {
+const gridGeneration = (noOfRows, noOfCols) => {
     for (let i = 0; i < noOfRows; i++) {
-        let newRow = new Array(noOfCols).fill(0);
+        let newRow = new Array(noOfCols).fill({
+            id: "",
+            value: 0,
+            state: "hidden"
+        });
         randomGrid.push(newRow);
     };
     // console.log(randomGrid);
-    return randomGrid;
+    // return randomGrid;
 };
 
 const bombCoordGeneration = (noOfRows, noOfCols, noOfMines) => {
@@ -99,17 +103,20 @@ const bombCoordGeneration = (noOfRows, noOfCols, noOfMines) => {
         };
 
     };
-    // console.log(bombCoord);
+    console.log(bombCoord);
     return bombCoord;
 };
 
-const bombToGrid = (randomGrid = [], bombCoord = []) => {
+const bombToGrid = (bombCoord = []) => {
     for (let i = 0; i < bombCoord.length; i++) {
         bombRow = bombCoord[i].row;
         bombCol = bombCoord[i].col;
-        randomGrid[bombRow][bombCol] = BOMB;
+        // randomGrid[bombRow]
+        randomGrid[5][5]["value"] = BOMB;
+        // currentGrid = randomGrid;
+        // console.log(currentGrid);
     };
-    numberToGrid(randomGrid, bombCoord);
+    // numberToGrid(randomGrid, bombCoord);
 };
 
 const numberToGrid = (randomGrid = [], bombCoord = []) => {
@@ -232,7 +239,7 @@ const convertCoords = (event) => {
         row: parseInt($(event.target).attr('id').substr(5,2)),
         col: parseInt($(event.target).attr('id').substr(12,2))
     }
-    console.log(cellCoord);
+    // console.log(cellCoord);
     return cellCoord;
 };
 
@@ -241,29 +248,29 @@ const openSurrounding = (event) => {
     const cellCoord = convertCoords(event); //get cell coord in object {row, col}
     const currentCol = ((cellCoord.col < 10)?"0":0) +cellCoord.col;
     const left =((cellCoord.col < 11)?"0" : 0)+(cellCoord.col - 1);
-    console.log(`left ${left}`);
+    // console.log(`left ${left}`);
     const right = ((cellCoord.col < 9)?"0" : 0)+(cellCoord.col + 1);
-    console.log(`right ${right}`);
+    // console.log(`right ${right}`);
     const currentRow = ((cellCoord.row < 10)?"0":0) +cellCoord.row;
     const above = ((cellCoord.row < 11)?"0" : 0)+(cellCoord.row - 1);
-    console.log(`above ${above}`)
+    // console.log(`above ${above}`)
     const below = ((cellCoord.row < 9)?"0" : 0)+(cellCoord.row + 1);
-    console.log(`below ${below}`)
+    // console.log(`below ${below}`)
 
     if (currentCol !== 0) { //if cell is not leftmost cell
         $(`#row-${currentRow}_col-${left}`).click(); //left cell click
-        console.log(`left cell #row-${currentRow}_col-${left}`)
+        // console.log(`left cell #row-${currentRow}_col-${left}`)
     };
 
     if (currentCol < (randomGrid[0].length - 1)) { //if cell is not rightmost cell
         $(`#row-${currentRow}_col-${right}`).click(); //right cell click
-        console.log(`right cell #row-${currentRow}_col-${right}`)
+        // console.log(`right cell #row-${currentRow}_col-${right}`)
     };
 
     if (currentRow !== 0) { //if cell is not in top row
         if (currentCol !== 0) {
             $(`#row-${above}_col-${left}`).click(); //above left cell click
-            console.log(`right cell #row-${above}_col-${left}`)
+            // console.log(`right cell #row-${above}_col-${left}`)
         }
 
         if (currentCol < (randomGrid[0].length - 1)) {
