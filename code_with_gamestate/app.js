@@ -69,15 +69,20 @@ const generateRandomField = (noOfRows, noOfCols, noOfMines) => {
 };
 
 const gridGeneration = (noOfRows, noOfCols) => {
+    // const randomGrid = [];
     for (let i = 0; i < noOfRows; i++) {
-        let newRow = new Array(noOfCols).fill({
-            id: "",
-            value: 0,
-            state: "hidden"
-        });
-        randomGrid.push(newRow);
+        const rowArray = [];
+        const currentRow = ((i < 10) ? "0" : 0) + i;
+        for (let j = 0; j < noOfCols; j++) {
+            const currentCol = ((j < 10) ? "0" : 0) + j;
+            rowArray.push({
+                id: `row-${currentRow}_col-${currentCol}`,
+                value: 0,
+                state: "hidden"
+            });
+        };
+        randomGrid.push(rowArray);
     };
-    // console.log(randomGrid);
     // return randomGrid;
 };
 
@@ -112,7 +117,8 @@ const bombToGrid = (bombCoord = []) => {
         bombRow = bombCoord[i].row;
         bombCol = bombCoord[i].col;
         // randomGrid[bombRow]
-        randomGrid[5][5]["value"] = BOMB;
+        // randomGrid[5][5]["id"] = `row-05_col-05`
+        randomGrid[bombRow][bombCol]["value"] = BOMB;
         // currentGrid = randomGrid;
         // console.log(currentGrid);
     };
