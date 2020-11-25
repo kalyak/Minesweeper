@@ -70,18 +70,8 @@ body {
 .bomb {
     background-color: darkgrey;
     background: url(../images/bomb.png) no-repeat;
+    background-color: darkgrey;
     background-size: cover;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-indent: -9999px;
-    pointer-events: none;
-}
-
-.clicked {
-    background: url(../images/bomb.png) no-repeat;
-    background-size: cover;
-    background-color: crimson;
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
@@ -102,6 +92,17 @@ body {
 .shown {
     color: white;
     background-color: slategrey;
+    pointer-events: none;
+}
+
+.clicked {
+    background: url(../images/bomb.png) no-repeat;
+    background-size: cover;
+    background-color: crimson;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-indent: -9999px;
     pointer-events: none;
 }
 
