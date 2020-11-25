@@ -2,12 +2,18 @@ $(document).bind("contextmenu", function (e) { //disable right click menu pop up
     return false;
 });
 
+const BOMB = "B";
 let message = "";
 let noOfMines = 0;
 const randomGrid = [];
-const bomb = "B";
 
 const levels = {
+    tutorial: [{
+        noOfRows: 10,
+        noOfCols: 10,
+        noOfMines: 10
+    }
+    ],
     easy: [{
         noOfRows: 10,
         noOfCols: 10,
@@ -35,6 +41,12 @@ const levelSelection = () => {
     const noOfCols = levels[$selectedLevel][0]["noOfCols"];
     const noOfMines = levels[$selectedLevel][0]["noOfMines"];
     generateRandomField(noOfRows, noOfCols, noOfMines, randomGrid);
+    
+    if ($selectedLevel === "tutorial") {
+        const $emptyCells = $('button:contains("0")');
+        const $noOfEmptyCells = $emptyCells.length;
+        $emptyCells.eq(Math.floor(Math.random()*$noOfEmptyCells)).click();
+    };
 };
 
 const generateRandomField = (noOfRows, noOfCols, noOfMines, randomGrid) => {
@@ -91,50 +103,50 @@ const bombToGrid = (randomGrid = [], bombCoord = []) => {
     for (let i = 0; i < bombCoord.length; i++) {
         bombRow = bombCoord[i].row;
         bombCol = bombCoord[i].col;
-        randomGrid[bombRow][bombCol] = bomb;
+        randomGrid[bombRow][bombCol] = BOMB;
     };
     numberToGrid(randomGrid, bombCoord);
 };
 
 const numberToGrid = (randomGrid = [], bombCoord = []) => {
     for (let i = 0; i < bombCoord.length; i++) {
-        bombRow = bombCoord[i].row;
+        const bombRow = bombCoord[i].row;
         bombCol = bombCoord[i].col;
         rowAbove = bombRow - 1;
         rowBelow = bombRow + 1;
         colLeft = bombCol - 1;
         colRight = bombCol + 1;
 
-        if ((bombCol !== 0) && (randomGrid[bombRow][colLeft] !== bomb)) {//left
+        if ((bombCol !== 0) && (randomGrid[bombRow][colLeft] !== BOMB)) {//left
             randomGrid[bombRow][colLeft]++;
         };
 
-        if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow][colRight] !== bomb)) {//right
+        if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[bombRow][colRight] !== BOMB)) {//right
             randomGrid[bombRow][colRight]++;
         };
 
         if (bombRow !== 0) { //top row
-            if ((bombCol !== 0) && (randomGrid[rowAbove][colLeft] !== bomb)) {//top left
+            if ((bombCol !== 0) && (randomGrid[rowAbove][colLeft] !== BOMB)) {//top left
                 randomGrid[rowAbove][colLeft]++;
             };
 
-            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[rowAbove][colRight] !== bomb)) {//top right
+            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[rowAbove][colRight] !== BOMB)) {//top right
                 randomGrid[rowAbove][colRight]++;
             };
-            if (randomGrid[rowAbove][bombCol] !== bomb) {
+            if (randomGrid[rowAbove][bombCol] !== BOMB) {
                 randomGrid[rowAbove][bombCol]++; //top center
             };
         };
 
         if (bombRow !== randomGrid.length - 1) { //bottom row
-            if ((bombCol !== 0) && (randomGrid[rowBelow][colLeft] !== bomb)) {//bottom left
+            if ((bombCol !== 0) && (randomGrid[rowBelow][colLeft] !== BOMB)) {//bottom left
                 randomGrid[rowBelow][colLeft]++;
             };
 
-            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[rowBelow][colRight] !== bomb)) {//bottom right
+            if ((bombCol !== randomGrid[0].length - 1) && (randomGrid[rowBelow][colRight] !== BOMB)) {//bottom right
                 randomGrid[rowBelow][colRight]++;
             };
-            if (randomGrid[rowBelow][bombCol] !== bomb) {
+            if (randomGrid[rowBelow][bombCol] !== BOMB) {
                 randomGrid[rowBelow][bombCol]++; //bottom center
             };
         };
@@ -152,7 +164,7 @@ const fieldGeneration = (randomGrid) => {
         const $row = $('<div>').attr('id', "row-" + i);
         for (let j = 0; j < currentRow.length; j++) {
             const currentCell = currentRow[j];
-            if (currentCell === bomb) {
+            if (currentCell === BOMB) {
                 noOfMines++;
             };
             const $col = $('<button>')
@@ -181,7 +193,7 @@ const clickCheck = (event) => {
         const $clickVal = $(event.target).html();
         showButton(event, $clickVal);
         disableButton(event);
-        if ($clickVal === bomb) {
+        if ($clickVal === BOMB) {
             clickedBomb(event);
             // console.log("Bomb");
         } else if ($clickVal === "0") {
@@ -194,7 +206,7 @@ const clickCheck = (event) => {
 const checkWin = () => {
     $noOfHidden = $('.hidden').length;
     $noOfFlags = $('.flag').length;
-    $noOfSuccessfulFlags = $(`.flag:contains(${bomb})`).length;
+    $noOfSuccessfulFlags = $(`.flag:contains(${BOMB})`).length;
     // console.log("Flags: " + $noOfFlags);
     // console.log("Successful flags: " + $noOfSuccessfulFlags);
     // console.log("No of mines: " + noOfMines);
@@ -281,8 +293,8 @@ const disableField = () => {
 const clickedBomb = (event) => {
     $(event.target).addClass("clicked");
     disableField();
-    $(`button:contains(${bomb})`).addClass("bomb");
-    $(`.flag:not(:contains(${bomb}))`).addClass("wrong");
+    $(`button:contains(${BOMB})`).addClass("bomb");
+    $(`.flag:not(:contains(${BOMB}))`).addClass("wrong");
     // console.log(`bombs displayed`);
     message = "Game Over";
     render();
@@ -297,7 +309,7 @@ const flag = (event) => {
 
 const render = () => {
     $('#message-box').html(message);
-    const flagsLeft = $(`.hidden:contains(${bomb})`).length - $('.flag').length + $('.wrong').length;
+    const flagsLeft = $(`.hidden:contains(${BOMB})`).length - $('.flag').length + $('.wrong').length;
     $('#mines-left').html(flagsLeft);
 };
 
@@ -335,10 +347,13 @@ $(() => {
 //change button id to num, blank or bomb?
 //render without number in html when hidden, only put in html when clicked => to prevent cheating by highlighting. // Done
 //using navigations of siblings? // Done
+//change for loop in bombCoordGeneration to while loop // Done
+//change array.fill for gridGeneration // Done
 
 //level selection: dropdown selection => show grid size and number of bombs
-//change for loop in bombCoordGeneration to while loop
-//change array.fill for gridGeneration
+//have changing status of all cells be in game state and render from there => lag?
+//have a confirmation for reset
+//tutorial/easy mode open any blank.
 
 // const timer = setInterval(() => {
 //     $('#timer').text(game.timer);
