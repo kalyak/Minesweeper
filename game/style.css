@@ -191,6 +191,9 @@ body {
     cursor: pointer;
 }
 
+#DO-NOT-SHOW {
+    display: none;
+}
 
 /* Classic theme */
 body.classic {
