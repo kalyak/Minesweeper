@@ -49,3 +49,15 @@ Any one mine being revealed will lose the game.
 ----------------------------------------------------------------
 ## **Technology used**
 Javascript, JQuery, HTML, CSS
+
+## **Approach taken**  
+1. Started off with a fix 3x3 grid and a have it be built onto the page using DOM manipulation.
+2. Build function for the reveal of all adjacent squares recursively if a blank cell is revealed working.
+3. Build function for win and lose conditions.
+4. Build function for building the variable size grid array.
+5. Build function for generating unique mine coordinates.
+6. Build functions for popluating grid array with mine and clues surrounding the mines.
+7. Add buttons and stylings and small improvements to augment the game experience.
+
+ ## **Unsolved problems**
+ 1. Tracking the game state in the Javascript instead of in the HTML.
