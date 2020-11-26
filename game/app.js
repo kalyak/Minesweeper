@@ -196,7 +196,7 @@ const clickCheck = (event) => {
     if ($(event.target).attr('class') === "hidden") {
         const $clickVal = $(event.target).html();
         showButton(event, $clickVal);
-        disableButton(event);
+        // disableButton(event);
         if ($clickVal === BOMB) {
             clickedBomb(event);
             // console.log("Bomb");
@@ -215,12 +215,10 @@ const checkWin = () => {
     // console.log("Successful flags: " + $noOfSuccessfulFlags);
     // console.log("No of mines: " + noOfMines);
     // console.log("No of hidden: " + $noOfHidden);
-    if ($noOfHidden === noOfMines) {
+    if (($noOfHidden === noOfMines) || ($noOfFlags === $noOfSuccessfulFlags) && ($noOfSuccessfulFlags === noOfMines)) {
         disableField();
-        message = "Congratulations! You have successfully navigated this field.";
-    } else if (($noOfFlags === $noOfSuccessfulFlags) && ($noOfSuccessfulFlags === noOfMines)) {
-        disableField();
-        message = "Congratulations! You have flagged all the mines!";
+        message = ($noOfHidden === noOfMines) ?
+            "Congratulations! You have successfully navigated this field." : "Congratulations! You have flagged all the mines!";
     }
     render();
 };
@@ -324,21 +322,16 @@ const reset = () => {
     message = "Please select your level."
     noOfMines = 0;
     render();
-    $('#levels').val("empty");
+    // $('#levels').val("empty");
     $('#level-select').show();
     $('#scoreboard').hide();
-    // $('#reset').hide();
     $('#reset-trigger').hide();
     $('.modal').hide();
 };
 
 const setUp = () => {
-    $('#credits').hide();
-    $('#scoreboard').hide();
-    $('#level-select-btn').on('click', levelSelection);
-    $('#reset-trigger').on('click',() => {$('.modal').show()});
-    $('.close').on('click',() => {$('.modal').hide()});
-    $('#reset-cfm').on('click', reset);
+    $('#reset-trigger').on('click', () => { $('.modal').show() });
+    $('.close').on('click', () => { $('.modal').hide() });
     message = "Please select your level below.";
     render();
 };
@@ -353,7 +346,6 @@ $(() => {
 
 //level selection: dropdown selection => show grid size and number of bombs
 //have changing status of all cells be in game state and render from there => lag?
-//have a confirmation for reset
 
 //change button id to num, blank or bomb?
 //render without number in html when hidden, only put in html when clicked => to prevent cheating by highlighting. // Done
@@ -361,11 +353,4 @@ $(() => {
 //change for loop in bombCoordGeneration to while loop // Done
 //change array.fill for gridGeneration // Done
 //tutorial/easy mode open any blank. // Done
-
-// const timer = setInterval(() => {
-//     $('#timer').text(game.timer);
-//     if (game.timer === 0) {
-//         clearInterval(timer);
-//     }
-//     game.timer--;
-// }, 1000);
+//have a confirmation for reset // Done
