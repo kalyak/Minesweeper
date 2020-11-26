@@ -311,6 +311,8 @@ const flag = (event) => {
 
 const classicTheme = () => {
     $('body').toggleClass("classic");
+    $bodyClass = $('body').attr('class');
+    $('#theme-status').html($bodyClass === "classic" ? "on" : "off");
 };
 
 const render = () => {
