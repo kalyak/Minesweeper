@@ -29,6 +29,24 @@ body {
     box-sizing: border-box;
 }
 
+#theme {
+    position: fixed; /* Position them relative to the browser window */
+    top: -40px;
+    right: 10px; /* Position them outside of the screen */
+    transition: 0.3s; /* Add transition on hover */
+    padding: 10px; /* 15px padding */
+    width: 60px; /* Set a specific width */
+    height: 50px;
+    color: auto; /* White text color */
+    font-size: 12px;
+    border-radius: 0 5px 5px 0;
+    background-color: #788EBC;
+}
+
+#theme:hover {
+    top: 0;
+}
+
 .field {
     margin-top: 200px;
     /* display: flex;
@@ -55,6 +73,7 @@ body {
 .shown {
     color: white;
     background-color: slategrey;
+    font-weight: bold;
     pointer-events: none;
 }
 
@@ -99,9 +118,16 @@ body {
     bottom: 0;
     margin-top: 100px;
     width: 100%;
+    font-size: smaller;
+    padding: 5px;
     background-color: steelblue;
     color: white;
     text-align: center;
+}
+
+#footer a {
+    text-decoration: none;
+    
 }
 
 /* @media all (min-width:520px) {
@@ -109,14 +135,12 @@ body {
 } */
 
 /* The Menu button */
-
 #reset-trigger {
     display: none;
     margin-bottom: 50px;
 }
 
 /* The Modal (background) */
-
 .modal {
     display: none;
     /* Hidden by default */
@@ -139,7 +163,6 @@ body {
 }
 
 /* Modal Content/Box */
-
 .modal-content {
     background-color: #fefefe;
     margin: 35% auto;
@@ -151,7 +174,6 @@ body {
 }
 
 /* The Close Button */
-
 .close {
     color: #aaa;
     float: right;
@@ -163,4 +185,33 @@ body {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+
+/* Classic theme */
+body.classic {
+    background-color: #82C5AF;
+}
+
+body.classic>#header {
+background-color:  #6A5F6E;
+border-color:#788EBC;
+color: #FDF0E4;
+}
+
+body.classic .hidden, body.classic .flag {
+    background-color: #FDF0E4;
+}
+
+body.classic .shown {
+    background-color: #B8B2D7;
+    color: midnightblue;
+}
+
+body.classic .clicked {
+    background-color: crimson;
+}
+
+body.classic>#footer {
+    background-color: #E6D4E4;
 }

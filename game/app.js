@@ -307,7 +307,11 @@ const flag = (event) => {
     $(event.target).toggleClass("flag");
     // console.log(`flag added`);
     checkWin();
-}
+};
+
+const classicTheme = () => {
+    $('body').toggleClass("classic");
+};
 
 const render = () => {
     $('#message-box').html(message);
