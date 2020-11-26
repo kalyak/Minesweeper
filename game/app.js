@@ -36,13 +36,14 @@ const levels = {
 
 const levelSelection = () => {
     const $selectedLevel = $('#levels option:selected').val();
+    const $selectedHint = $('#hint option:selected').val();
     // console.log($selectedLevel);
     const noOfRows = levels[$selectedLevel][0]["noOfRows"];
     const noOfCols = levels[$selectedLevel][0]["noOfCols"];
     const noOfMines = levels[$selectedLevel][0]["noOfMines"];
     generateRandomField(noOfRows, noOfCols, noOfMines, randomGrid);
 
-    if ($selectedLevel === "tutorial") {
+    if ($selectedLevel === "tutorial" || $selectedHint === "yes") {
         tutorialLevel();
     };
 };
