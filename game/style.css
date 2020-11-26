@@ -47,6 +47,10 @@ body {
     top: 0;
 }
 
+#level-select select {
+    margin: 2px;
+}
+
 .field {
     margin-top: 200px;
     /* display: flex;

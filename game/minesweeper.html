@@ -20,20 +20,23 @@
 
         <div id="level-select">
             <!-- <label for="levels">Select your level: </label> -->
-            <select name="levels" id="levels">
+            <select onchange="gridOptions()" name="levels" id="levels">
                 <option value="empty">[Please select an option]</option>
-                <option value="tutorial">Tutorial on Easy</option>
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
+                <option value="tutorial">Tutorial</option>
+                <option value="easy">Easy (10 mines)</option>
+                <option value="medium">Medium (40 mines)</option>
+                <option value="hard">Hard (99 mines)</option>
             </select>
-
+            <br>
+            <select name="grid-size" id="grid-size"></select>
+            <br>
             <select name="hint" id="hint">
                 <option value="empty">[Do you want a hint?]</option>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
             </select>
-            <button onclick="levelSelection()" id="level-select-btn">Go!</button>
+            <br>
+            <button onclick="levelSelection()" id="level-select-btn">Start!</button>
         </div>
 
         <div id="scoreboard">

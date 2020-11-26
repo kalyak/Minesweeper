@@ -8,42 +8,79 @@ let noOfMines = 0;
 const randomGrid = [];
 
 const levels = {
-    tutorial: [{
-        noOfRows: 10,
-        noOfCols: 10,
-        noOfMines: 10
+    tutorial: {
+        "Tutorial": {
+            noOfRows: 10,
+            noOfCols: 10,
+            noOfMines: 10
+        }
+    },
+    easy: {
+        "8 x 8": {
+            noOfRows: 8,
+            noOfCols: 8,
+            noOfMines: 10
+        },
+        "9 x 9": {
+            noOfRows: 9,
+            noOfCols: 9,
+            noOfMines: 10
+        },
+        "10 x 10": {
+            noOfRows: 10,
+            noOfCols: 10,
+            noOfMines: 10
+        }
+    },
+    medium: {
+        "13 x 15": {
+            noOfRows: 13,
+            noOfCols: 15,
+            noOfMines: 40
+        }
+        ,
+        "16 x 16": {
+            noOfRows: 16,
+            noOfCols: 16,
+            noOfMines: 40
+        }
+    },
+    hard: {
+        "30 x 16": {
+            noOfRows: 30,
+            noOfCols: 16,
+            noOfMines: 99
+        }
     }
-    ],
-    easy: [{
-        noOfRows: 10,
-        noOfCols: 10,
-        noOfMines: 10
-    }
-    ],
-    medium: [{
-        noOfRows: 13,
-        noOfCols: 16,
-        noOfMines: 40
-    }
-    ],
-    hard: [{
-        noOfRows: 30,
-        noOfCols: 16,
-        noOfMines: 99
-    }
-    ]
 }
 
+const gridOptions = () => {
+    const $gridDropDown = $('#grid-size');
+    $gridDropDown.empty();
+    const $selectLevel = $('#levels option:selected').val();
+    const gridSize = levels[$selectLevel]
+    const gridList = Object.keys(gridSize);
+    for (key of gridList) {
+        $gridDropDown.append($('<option>')
+            .attr('value', key)
+            .html(key));
+    };
+
+    ($selectLevel === "tutorial") ? $('#hint').hide() : $('#hint').show();
+
+};
+
 const levelSelection = () => {
-    const $selectedLevel = $('#levels option:selected').val();
+    const $selectLevel = $('#levels option:selected').val();
+    const $selectedGrid = $('#grid-size option:selected').val();
     const $selectedHint = $('#hint option:selected').val();
     // console.log($selectedLevel);
-    const noOfRows = levels[$selectedLevel][0]["noOfRows"];
-    const noOfCols = levels[$selectedLevel][0]["noOfCols"];
-    const noOfMines = levels[$selectedLevel][0]["noOfMines"];
+    const noOfRows = levels[$selectLevel][$selectedGrid]["noOfRows"];
+    const noOfCols = levels[$selectLevel][$selectedGrid]["noOfCols"];
+    const noOfMines = levels[$selectLevel][$selectedGrid]["noOfMines"];
     generateRandomField(noOfRows, noOfCols, noOfMines, randomGrid);
 
-    if ($selectedLevel === "tutorial" || $selectedHint === "yes") {
+    if ($selectedGrid === "tutorial" || $selectedHint === "yes") {
         tutorialLevel();
     };
 };
