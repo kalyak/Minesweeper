@@ -5,18 +5,28 @@ You can play the game at https://pages.git.generalassemb.ly/kkusumad/Minesweeper
   
 
 ## **Objective of the project**
-1. Flag out all of the mines or successfully reveal all of the boxes except for the mines.
-2. play through the tutorial on how the number hints come to be.
-3. having at least 1 other color theme to toggle between.
+General Objective:
+1. Create an interactive game using HTML, CSS and Javascript.
+2. Use DOM manipulation in Javascript that is triggered by a browser event.
+
+Personal Objective:  
+1. Create a variable field onscreen and hide and show elements as needed.
+2. Have at least 1 other color theme to toggle between.
 
 ----------------------------------------------------------------
 
 ## **Game description**
 This game requires you to navigate a field riddled with mines sensitive to clicking. How do you clear the grid without triggering any of the mines?  
-  
+
+![Starting grid](images/grid.png)
+
 Don't worry! The people who buried the mines had to get out of the field safely somehow, and left behind their markers denoting how many mines are surrounding a plot and the number of mines they planted.  
-  
+
+![Exposed clues](images/grid_with_clues.png)
+
 Dig up all the plots around the mines, or flag all the mines, help your fellow living folks not blow themselves up!
+
+![flagged mines](images/grid_with_flags.png)
 
 ## **Instructions of the game**
 1. **Select your game level:**  
@@ -33,7 +43,7 @@ Dig up all the plots around the mines, or flag all the mines, help your fellow l
 *100% Accurate flagging* - all flags on the field are on the same plot as the mines. If the number of flags are more than the number of mines, the game is not yet over.  
 *All non-mine plots revealed* - all plots other than the mines are revealed  with no mines triggered. Flagged plots are not considered revealed.  
 
-4. Lose Conditions:
+4. **Lose Conditions:**  
 Any one mine being revealed will lose the game.
 
 ----------------------------------------------------------------
