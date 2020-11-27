@@ -4,7 +4,7 @@
 
 1. **What in my process and approach to this project went well that I would repeat next time?**  
 - Thinking through the potential problem areas and running the steps through in my head and on paper in sudo code before starting the code.
-- Breaking up the code into a new function once I see that the code is getting repetitive or going into a long sub function instead of continuong it all in one long function and figuring out how to refactor it later.
+- Breaking up the code into a new function once I see that the code is getting repetitive or going into a long sub function instead of continuing it all in one long function and figuring out how to refactor it later.
 
 ---
 
@@ -77,9 +77,7 @@ For each, please include code examples.
                 .attr('value', key)
                 .html(key));
         };
-
         ($selectLevel === "tutorial") ? $('#hint').hide() : $('#hint').show();
-    
     };
     ```
 
