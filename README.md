@@ -61,3 +61,10 @@ Javascript, JQuery, HTML, CSS
 
  ## **Unsolved problems**
  1. Tracking the game state in the Javascript instead of in the HTML.
+ 2. Mobile optimization.
+
+ ## **Future enhancements**
+ 1. Icon pack.
+ 2. Instruction page.
+ 3. Hover effect on where the mouse is.
+ 4. Explosion effect when mine is revealed.
