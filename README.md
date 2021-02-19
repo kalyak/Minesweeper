@@ -1,7 +1,7 @@
 # SEI-26 / Kalya Kusumadi / Project-1: Minesweeper
 
 ## **Link to game**
-You can play the game at https://pages.git.generalassemb.ly/kkusumad/Minesweeper/game/minesweeper.html
+You can play the game at https://kalyak.github.io/Minesweeper/game/minesweeper.html
   
 
 ## **Objective of the project**
